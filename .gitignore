@@ -46,6 +46,8 @@ logs/
 checkpoints/
 models/
 wandb/
+artifacts/
+.matplotlib/
 *.pt
 *.pth
 *.ckpt

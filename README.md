@@ -4,9 +4,11 @@
 
 在简单房间热模型中训练 PPO，比较 `clip_range`、`gae_lambda` 和 `n_epochs` 对舒适度、能耗和训练稳定性的影响。计划在 M4 / 16 GB Mac 上使用 CPU 完成。
 
-第一次了解项目请读 [项目要求、现有实现与后续工作](docs/PROJECT_GUIDE_zh.md)。
+第一次了解项目请读 [项目要求、现有实现与后续工作](docs/PROJECT_GUIDE_zh.md)。执行进度见 [TODO](TODO.md)。
 
 详细建模解释可直接打开 [HTML 阅读版](docs/MODELING_EXPLANATION_zh.html)：公式和热网络图已内嵌，支持离线阅读及浏览器打印。对应的 [Markdown 原文](docs/MODELING_EXPLANATION_zh.md) 一并保留。
+
+准备训练前可读 [PPO 复习与项目推进计划](docs/PPO_REVIEW_AND_PLAN_zh.html)：结合温控任务解释 GAE、裁剪目标和训练轮数，并列出默认设置、消融方案及后续阶段。
 
 ## 目录
 
@@ -28,21 +30,20 @@ RL_5034/
 ## 当前状态
 
 - 已初始化本地 Git，分支为 `main`；远程仓库由项目负责人关联。
-- 已导入队友环境；尚未在这台 Mac 的项目独立环境中重新运行测试。
-- 尚未实现 PPO 训练、控制策略对照、超参数消融和结果汇总。
+- 已创建 Conda `ppo` 环境（Python 3.12.16），队友 76 项测试和 Gymnasium 自检在 Mac 通过，见 [复验记录](docs/ENVIRONMENT_MAC.md)。
+- PPO 训练、控制策略对照、超参数消融和结果汇总按 [TODO](TODO.md) 推进。
 - `.gitignore` 已排除压缩包、虚拟环境、缓存和训练模型；保留课程 PDF、小型验证图和 CSV。
 
-## 环境验证入口
+## 安装与验证
 
-以下是下一步安装后的验证方式，**本次目录整理尚未执行这些命令**。建议用 Python 3.12 的独立虚拟环境；此处的 Python 虚拟环境与 Gymnasium 仿真环境是不同概念。
+在仓库根目录创建或激活 Conda 环境：
 
 ```bash
-cd RL_assignment
-# 在已激活的 Python 3.12 虚拟环境内执行：
-python -m pip install -e '.[validation]'
-pytest -q
+conda env create -f environment.yml
+conda activate ppo
+python -m pytest RL_assignment/tests -q
 python -c "from gymnasium.utils.env_checker import check_env; from hvac_env import HVAC2R2CEnv; check_env(HVAC2R2CEnv())"
-python scripts/dynamics_sanity.py --output-dir /tmp/rl5034-sanity --plot
+python RL_assignment/scripts/dynamics_sanity.py --output-dir artifacts/env-validation --plot
 ```
 
-后续 PPO 训练还需安装 Stable-Baselines3；它不在队友当前的运行依赖中。训练脚本、实验配置与版本记录待训练阶段加入。
+本机 `ppo` 已安装所需依赖，无需重复创建。环境安装包含 Stable-Baselines3、PyTorch 和两个本地包；CPU 实验设置与锁定版本由根目录配置管理。

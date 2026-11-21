@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AIAA 5034 题目 16：PPO 算法复习、三个超参数及项目实验计划。">
+  <title>PPO 复习与项目推进计划</title>
+  <style>
+    :root { color-scheme: light; --ink: #263730; --muted: #67766c; --accent: #216858; --line: #dce4dd; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f1f4ef; color: var(--ink); font: 17px/1.95 system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    main { max-width: 1060px; margin: 44px auto; padding: 46px 60px 58px; background: #fffefa; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 8px 32px #243a2c08; }
+    header { border-bottom: 1px solid var(--line); margin-bottom: 32px; padding-bottom: 25px; }
+    .eyebrow { margin: 0 0 7px; color: var(--accent); font-size: 12px; letter-spacing: .12em; }
+    h1 { margin: 0; font-size: clamp(25px, 4vw, 35px); line-height: 1.5; letter-spacing: -.02em; }
+    h2 { margin: 2.2em 0 .7em; padding-bottom: .35em; border-bottom: 1px solid var(--line); font-size: 1.35em; line-height: 1.6; color: #214d3d; }
+    h3 { margin: 1.8em 0 .5em; font-size: 1.08em; line-height: 1.7; color: #285842; }
+    .subtitle { margin: 9px 0 0; color: var(--muted); font-size: 14px; }
+    p { margin: 1.1em 0; }
+    strong { color: #163f31; font-weight: 650; }
+    a { color: var(--accent); text-decoration-color: #9ab5a7; text-underline-offset: 3px; }
+    a:focus-visible, .table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    ul { padding-left: 1.5em; margin: 1em 0 1.4em; }
+    li { padding-left: .15em; margin: .35em 0; }
+    code { padding: .13em .35em; border-radius: 4px; background: #edf2ed; font: .88em/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+    pre { overflow-x: auto; padding: 18px 22px; background: #eef3ee; border: 1px solid var(--line); border-radius: 9px; }
+    pre code { padding: 0; background: none; overflow-wrap: normal; white-space: pre; }
+    .table-scroll { width: 100%; overflow-x: auto; margin: 24px 0; border: 1px solid var(--line); border-radius: 9px; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.7; }
+    th, td { padding: 12px 15px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: #eef3ec; text-align: left; color: #254c3c; font-weight: 650; }
+    tr:last-child td { border-bottom: 0; }
+    tbody tr:nth-child(even) { background: #f8faf6; }
+    .equation { overflow-x: auto; margin: 26px 0; padding: 24px 12px; background: #f6f8f3; border: 1px solid #e5eadd; border-radius: 9px; }
+    .equation math { min-width: max-content; margin: 0 auto; }
+    math { font-family: "STIX Two Math", "Cambria Math", "STIXGeneral", math; font-size: 1.08em; }
+    mtext { font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .thermal-diagram { margin: 26px 0; padding: 12px; background: #f8faf6; border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
+    .thermal-diagram svg { display: block; width: 100%; min-width: 650px; height: auto; }
+    footer { margin-top: 38px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      main { margin: 0; padding: 28px 20px 40px; border: 0; border-radius: 0; }
+      th, td { padding: 10px 12px; }
+      .equation { padding: 20px 12px; }
+    }
+    @media print {
+      @page { margin: 16mm; }
+      body { background: white; font-size: 11pt; }
+      main { max-width: none; margin: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; }
+      a { color: inherit; text-decoration: none; }
+      .equation, .thermal-diagram, tr { break-inside: avoid; }
+      .table-scroll, .equation, .thermal-diagram { overflow: visible; }
+      .thermal-diagram svg { min-width: 0; }
+      footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">AIAA 5034 · TOPIC 16</p>
+    <h1>PPO 复习与项目推进计划</h1>
+    <p class="subtitle">Actor–Critic · GAE · 裁剪目标 · Epochs · 温控消融实验</p>
+  </header>
+  <article>
+<p>这份复习把 PPO 的每一个环节对应到当前房间温控项目。这里先解释算法与实验设计，不安装依赖，也不开始训练。文中的参数和步数是建议起点，正式预算需由本机短跑确定。</p>
+<h2>1. PPO 在这个项目里学习什么</h2>
+<p>每个时刻，控制器读取 11 维观测，选择一个供暖/制冷动作，房间模型推进 15 分钟，再返回奖励和下一观测。热阻、热容、天气函数和奖励定义由环境给定；PPO 更新策略与价值网络的参数。</p>
+<p>默认单步奖励是：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>r</mi><mi>t</mi></msub><mo>=</mo><mo>−</mo><mn>0.25</mn><msub><mi>d</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>−</mo><mn>0.1</mn><msub><mi>E</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">r_t=-0.25d_{t+1}-0.1E_t</annotation></semantics></math></span></div>
+<p>其中，<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">d_{t+1}</annotation></semantics></math></span> 是步后室温距离舒适区间的越界距离，单位 °C；<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>E</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">E_t</annotation></semantics></math></span> 是这一步的用电量，单位 kWh。系数按当前单位的数值计算。</p>
+<p>PPO 希望最大化期望折扣累计奖励：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>J</mi><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi mathvariant="double-struck">E</mi><msub><mi>π</mi><mi>θ</mi></msub></msub><mrow><mo fence="true">[</mo><munderover><mo>∑</mo><mrow><mi>t</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>T</mi><mo>−</mo><mn>1</mn></mrow></munderover><msup><mi>γ</mi><mi>t</mi></msup><msub><mi>r</mi><mi>t</mi></msub><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">J(\theta)=\mathbb{E}_{\pi_\theta}\left[\sum_{t=0}^{T-1}\gamma^t r_t\right]</annotation></semantics></math></span></div>
+<p>房间具有热惯性，所以一个动作的价值要结合后续温度和用电来看。例如提前制冷可能现在多耗电，但减少之后的温度越界；这种行为是否出现，要由训练结果检验。</p>
+<p>奖励为负不妨碍学习：从累计惩罚 −10 改进为 −5，就是更好的策略。报告还要分别显示舒适度和能耗，避免只从总奖励推断节能效果。</p>
+<h2>2. Actor 与 Critic 各做什么</h2>
+<p>**Actor（策略）**接收观测，输出动作分布。对当前连续动作任务，可以理解成输出高斯分布的均值与标准差；训练时采样动作以探索，常规评估使用确定性动作。动作最终还需符合环境的 <code>[-1, 1]</code> 范围。</p>
+<p>**Critic（价值函数）**估计从当前观测出发、继续遵循当前策略时的未来折扣累计奖励。它预测的不是下一步温度。</p>
+<p>优势衡量“这个动作比在相同状态下通常能做到的水平好多少”：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>A</mi><mi>π</mi></msup><mo stretchy="false">(</mo><msub><mi>o</mi><mi>t</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>t</mi></msub><mo stretchy="false">)</mo><mo>=</mo><msup><mi>Q</mi><mi>π</mi></msup><mo stretchy="false">(</mo><msub><mi>o</mi><mi>t</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>t</mi></msub><mo stretchy="false">)</mo><mo>−</mo><msup><mi>V</mi><mi>π</mi></msup><mo stretchy="false">(</mo><msub><mi>o</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A^\pi(o_t,a_t)=Q^\pi(o_t,a_t)-V^\pi(o_t)</annotation></semantics></math></span></div>
+<p>例如 Critic 预计未来回报约为 −2，而某次动作后的估计回报是 −1，那么优势为 +1。即使回报仍为负，这个动作也值得增加出现的机会。</p>
+<h2>3. 一轮 PPO 更新的完整过程</h2>
+<pre><code class="language-text">固定本轮采样策略 π_old
+  → 与房间交互，保存观测、动作、奖励、旧 log_prob、旧 value
+  → 用 Critic 与 GAE 计算优势、价值训练目标
+  → 打乱数据，切成 mini-batch
+  → 计算 PPO 裁剪目标与价值误差，更新网络
+  → 对这同一批数据重复 n_epochs 轮
+  → 用更新后的策略重新采集一批数据
+</code></pre>
+<p>PPO 通常只用最近采集的这批数据更新，然后采集新数据。一个 rollout 可以包含多个 episode，也可以在某个 episode 中途结束；它不必与默认 672 步的七天轨迹对齐。</p>
+<h3>3.1 GAE：先决定哪些动作应该被鼓励</h3>
+<p>一步 TD 残差为：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>δ</mi><mi>t</mi></msub><mo>=</mo><msub><mi>r</mi><mi>t</mi></msub><mo>+</mo><mi>γ</mi><msub><mi>V</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">d</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>o</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub><mo stretchy="false">)</mo><mo>−</mo><msub><mi>V</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">d</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>o</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\delta_t=r_t+\gamma V_{\mathrm{old}}(o_{t+1})-V_{\mathrm{old}}(o_t)</annotation></semantics></math></span></div>
+<p>GAE 将不同时间跨度的 TD 残差加权累积：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mover accent="true"><mi>A</mi><mo>^</mo></mover><mi>t</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>l</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>L</mi><mo>−</mo><mn>1</mn></mrow></munderover><mo stretchy="false">(</mo><mi>γ</mi><mi>λ</mi><msup><mo stretchy="false">)</mo><mi>l</mi></msup><msub><mi>δ</mi><mrow><mi>t</mi><mo>+</mo><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\hat A_t=\sum_{l=0}^{L-1}(\gamma\lambda)^l\delta_{t+l}</annotation></semantics></math></span></div>
+<p>这里的 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span> 是当前可用片段的长度，跨回合时需要正确切断递推；上式省略了终止掩码。真实终止时不再加后续价值，rollout 边界或本项目的七天时间截断则需要适当的价值自举。使用 Stable-Baselines3 时交给其采样器处理，并保留环境的正确截断语义。</p>
+<ul>
+<li><code>gae_lambda</code> 较小：更依赖短期 TD 与 Critic 自举，通常方差较低，对价值估计误差的依赖较强。</li>
+<li><code>gae_lambda</code> 较大：结合更长的实际奖励片段，通常减少自举带来的偏差，但可能增加方差。</li>
+</ul>
+<p>它不是奖励权重，也不直接规定控制器的记忆长度。Critic 已经包含对片段之后回报的估计。</p>
+<p><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span> 和 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span> 也不能混为一谈：前者定义优化目标对未来奖励的折扣，后者影响怎样估计优势。若固定 <code>gamma=0.99</code>，常用的粗略折扣尺度约为 100 步，即 25 小时；这不是“25 小时以后的奖励完全被忽略”。</p>
+<p>价值网络的训练目标可由优势与旧价值相加得到：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mover accent="true"><mi>R</mi><mo>^</mo></mover><mi>t</mi></msub><mo>=</mo><msub><mover accent="true"><mi>A</mi><mo>^</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mi>V</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">d</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>o</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\hat R_t=\hat A_t+V_{\mathrm{old}}(o_t)</annotation></semantics></math></span></div>
+<h3>3.2 Clipping：限制继续推动策略改变的收益</h3>
+<p>定义新旧策略对同一个已采样动作的概率密度比：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>ρ</mi><mi>t</mi></msub><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><msub><mi>a</mi><mi>t</mi></msub><mo>∣</mo><msub><mi>o</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow><mrow><msub><mi>π</mi><mrow><mi mathvariant="normal">o</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">d</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>a</mi><mi>t</mi></msub><mo>∣</mo><msub><mi>o</mi><mi>t</mi></msub><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\rho_t(\theta)=\frac{\pi_\theta(a_t\mid o_t)}{\pi_{\mathrm{old}}(a_t\mid o_t)}</annotation></semantics></math></span></div>
+<p>优势为正，希望增加该动作的概率密度；优势为负，希望降低它。若对同一批数据反复优化而没有约束，策略可能改变得过多。</p>
+<p>PPO 的裁剪目标是最大化：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>L</mi><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">l</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">p</mi></mrow></msup><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi mathvariant="double-struck">E</mi><mi>t</mi></msub><mrow><mo fence="true">[</mo><mi>min</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><msub><mi>ρ</mi><mi>t</mi></msub><msub><mover accent="true"><mi>A</mi><mo>^</mo></mover><mi>t</mi></msub><mo separator="true">,</mo><mi mathvariant="normal">clip</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mi>ρ</mi><mi>t</mi></msub><mo separator="true">,</mo><mn>1</mn><mo>−</mo><mi>ϵ</mi><mo separator="true">,</mo><mn>1</mn><mo>+</mo><mi>ϵ</mi><mo stretchy="false">)</mo><msub><mover accent="true"><mi>A</mi><mo>^</mo></mover><mi>t</mi></msub><mo fence="true">)</mo></mrow><mo fence="true">]</mo></mrow></mrow><annotation encoding="application/x-tex">L^{\mathrm{clip}}(\theta)=\mathbb{E}_t\left[\min\left(\rho_t\hat A_t,\operatorname{clip}(\rho_t,1-\epsilon,1+\epsilon)\hat A_t\right)\right]</annotation></semantics></math></span></div>
+<p><code>clip_range</code> 就是 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span>。例如优势为 +2，<code>clip_range=0.2</code>，当概率比从 1.2 增大到 1.4，目标中的贡献仍上限为 2.4，不再因为继续增大该比值而额外获益。负优势时，对过度降低动作概率也有对应的抑制。</p>
+<p><strong>这不是把最终概率比硬性限制在 <code>[0.8, 1.2]</code> 内。</strong> 实际策略仍可能越界，也不保证 KL 散度始终很小。训练还会使用价值误差项；实现中也可加入熵项以鼓励探索，系数可能为零。</p>
+<p>这里裁剪的是策略更新目标里的概率比，与把空调动作裁剪到 <code>[-1, 1]</code> 是两个不同操作。Stable-Baselines3 的默认 PPO 连续策略通常先采样高斯动作，再对交给环境的动作裁剪；这一处理在所有消融配置中应保持一致。</p>
+<h3>3.3 Epochs：同一批经验用几遍</h3>
+<p>一批采样量：</p>
+<div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>B</mi><mo>=</mo><mtext mathvariant="monospace">n_steps</mtext><mo>×</mo><mtext mathvariant="monospace">n_envs</mtext></mrow><annotation encoding="application/x-tex">B=\texttt{n\_steps}\times\texttt{n\_envs}</annotation></semantics></math></span></div>
+<p>例如 <code>n_steps=2048</code>、<code>n_envs=1</code>、<code>batch_size=64</code>：每轮 epoch 有 32 个 mini-batch；若 <code>n_epochs=10</code>，一次 rollout 后执行 320 次 mini-batch 更新。</p>
+<p>一个 epoch 是把这批数据遍历一遍，不代表一天、一个 episode 或重新采样一次。重复多个 epoch 时，分母使用的旧策略 log_prob 仍是采样时保存的值。</p>
+<p>增加 <code>n_epochs</code> 可能提高采样数据的利用率，同时增加计算量，也可能使策略对这批数据更新过强。它与学习率、裁剪范围共同影响更新幅度，不能简单理解成“训练越多越好”。</p>
+<h2>4. 三个参数在流程中的位置</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>影响哪个环节</th>
+<th>较小时的常见倾向</th>
+<th>较大时的常见倾向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gae_lambda</code></td>
+<td>如何估计动作的优势</td>
+<td>更依赖短期自举，方差较低</td>
+<td>使用更长奖励片段，方差可能增加</td>
+</tr>
+<tr>
+<td><code>clip_range</code></td>
+<td>如何根据优势优化策略</td>
+<td>对有利方向的大幅概率比变化更早裁剪</td>
+<td>允许更大的目标改进空间</td>
+</tr>
+<tr>
+<td><code>n_epochs</code></td>
+<td>每批数据重复训练几轮</td>
+<td>计算较少，可能没有充分利用数据</td>
+<td>计算较多，可能更新过强</td>
+</tr>
+</tbody>
+</table></div>
+<p>这些是分析假设，不是项目结果。观察到差异很小也有价值，需要结合任务难度、训练预算和随机波动解释。</p>
+<h2>5. 建议先固定的默认设置</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
+<thead>
+<tr>
+<th>设置</th>
+<th>建议起点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>设备、网络</td>
+<td>CPU；策略/价值 MLP 使用两层、每层 64 个单元</td>
+</tr>
+<tr>
+<td>三个待研究参数</td>
+<td><code>clip_range=0.2</code>、<code>gae_lambda=0.95</code>、<code>n_epochs=10</code></td>
+</tr>
+<tr>
+<td>采样与批量</td>
+<td><code>n_envs=1</code>、<code>n_steps=2048</code>、<code>batch_size=64</code></td>
+</tr>
+<tr>
+<td>其他关键参数</td>
+<td><code>learning_rate=3e-4</code>、<code>gamma=0.99</code>；其余相关设置显式记录并固定</td>
+</tr>
+<tr>
+<td>归一化</td>
+<td>归一化观测；起步时保持原始奖励，不做奖励归一化</td>
+</tr>
+<tr>
+<td>初次短跑</td>
+<td>102,400 个采样步，即 50 个 rollout</td>
+</tr>
+<tr>
+<td>正式预算候选</td>
+<td>每次 512,000 步；是否需要统一增加由短跑和学习曲线决定</td>
+</tr>
+</tbody>
+</table></div>
+<p>这些步数是实验起点，不是收敛保证。观测归一化统计必须与模型一起保存，验证和测试时复用并冻结，不更新网络。</p>
+<h2>6. 接下来按哪些阶段推进</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>具体工作</th>
+<th>完成标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. 本机环境复验</td>
+<td>Python 3.12 独立环境；安装现有包、验证依赖、Stable-Baselines3；CPU 运行</td>
+<td>既有测试、自检和固定动作脚本通过，记录版本</td>
+</tr>
+<tr>
+<td>2. 建立统一评估</td>
+<td>保存固定场景表；实现无控制与恒温器；汇总物理指标</td>
+<td>同一控制器可重复得到同一结果，电量与度时计算正确</td>
+</tr>
+<tr>
+<td>3. 默认 PPO 短跑</td>
+<td>训练、日志、评估、保存和重新加载；测实际速度</td>
+<td>训练流程正常、数值有限，模型和归一化状态可完整恢复；评估控制效果</td>
+</tr>
+<tr>
+<td>4. 冻结实验协议</td>
+<td>确定网络、奖励、预算、种子、评估条件与记录字段</td>
+<td>配置可复用，除待研究参数外其余设置保持一致</td>
+</tr>
+<tr>
+<td>5. 多种子消融</td>
+<td>7 个不同配置，每个 3 个训练种子</td>
+<td>21 次运行完整记录，失败运行与重试不被隐去</td>
+</tr>
+<tr>
+<td>6. 分析和交付</td>
+<td>汇总结果、绘图、报告、程序使用说明与展示材料</td>
+<td>每张图表对应可追溯运行，报告与程序一致</td>
+</tr>
+</tbody>
+</table></div>
+<p>环境通过验证后，优先做统一评估，再判断 PPO 是否学到有效控制。无控制是诊断参照；简单恒温器是有意义的规则对照。这两者不是题目明文要求的算法比较。</p>
+<p>PPO 不一定在每个指标上胜过恒温器。训练目标带有舒适与能耗权重，较好的总奖励可能来自不同的权衡；报告应如实展示。</p>
+<h3>6.1 消融配置与公平比较</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
+<thead>
+<tr>
+<th>编号</th>
+<th style="text-align:right">clip_range</th>
+<th style="text-align:right">gae_lambda</th>
+<th style="text-align:right">n_epochs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认</td>
+<td style="text-align:right">0.2</td>
+<td style="text-align:right">0.95</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td>clip 小</td>
+<td style="text-align:right">0.1</td>
+<td style="text-align:right">0.95</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td>clip 大</td>
+<td style="text-align:right">0.3</td>
+<td style="text-align:right">0.95</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td>lambda 小</td>
+<td style="text-align:right">0.2</td>
+<td style="text-align:right">0.90</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td>lambda 大</td>
+<td style="text-align:right">0.2</td>
+<td style="text-align:right">0.99</td>
+<td style="text-align:right">10</td>
+</tr>
+<tr>
+<td>epochs 少</td>
+<td style="text-align:right">0.2</td>
+<td style="text-align:right">0.95</td>
+<td style="text-align:right">5</td>
+</tr>
+<tr>
+<td>epochs 多</td>
+<td style="text-align:right">0.2</td>
+<td style="text-align:right">0.95</td>
+<td style="text-align:right">20</td>
+</tr>
+</tbody>
+</table></div>
+<p>共同基准只需运行一次，因此是 7 个配置，不是 9 个。建议训练种子先固定为 <code>[0, 1, 2]</code>，共 21 次运行；若采用 512,000 步预算，总训练交互约 1,075 万步，尚不包含评估。</p>
+<p>按相同环境交互步数比较样本效率，同时记录实际训练与评估时间。<code>n_epochs</code> 不同，计算量本来就不同，不应为了让耗时一样而改变采样预算。</p>
+<p>这是单因素消融，能研究默认设置附近的单个参数影响，不能推断三者所有组合的交互作用。</p>
+<h3>6.2 训练、验证与最终测试</h3>
+<ul>
+<li>训练：继续使用队友的天气与初态随机采样规则。</li>
+<li>验证：建立固定场景表，用来观察学习曲线、诊断问题和决定统一预算。例如每类天气 5 个条件，共 15 个。</li>
+<li>最终测试：另建一组不用于调参的固定条件，例如每类天气 10 个，共 30 个；所有模型和规则控制器都使用同一组条件。</li>
+</ul>
+<p>场景表应保存天气偏移、室内初温，以及显式围护初温或统一的围护初始化规则。采用不同随机种子生成条件后，应保存实际条件，而不只保存种子。</p>
+<p>一种可行的验证间隔是每 20,480 步评估一次，即每 10 个 rollout。验证和测试均使用相同的确定性评估方式。最后比较固定预算下的模型；若选择最佳验证检查点，必须统一选择规则，不能依据最终测试结果挑模型。</p>
+<h3>6.3 需要保留什么结果</h3>
+<p><strong>最终效果</strong>：CVR（%）、degree-hours（°C·h）、总用电（kWh）、原始累计奖励；冷、热、过渡场景分别报告，并给出固定权重的汇总。</p>
+<p><strong>训练稳定性</strong>：验证回报随采样步数的曲线、不同训练种子的均值与标准差；结合 <code>approx_kl</code>、<code>clip_fraction</code>、<code>entropy_loss</code>、<code>explained_variance</code> 以及异常回落解释。单个诊断量不能独立证明稳定性；<code>entropy_loss</code> 的符号也不能直接当作熵本身。</p>
+<p><strong>代表性轨迹</strong>：室温、舒适边界、外温、动作及累计电量，使用事先固定的条件，不只挑最好的一条。</p>
+<p>不同训练种子反映训练随机性，同一模型的多个测试条件反映场景差异。不要把 30 个测试回合当成 30 次独立训练来夸大证据；3 个训练种子的波动估计也比较有限。</p>
+<h2>7. 程序与文档还需要补哪些入口</h2>
+<p>以下是建议结构，目前尚未创建训练实现：</p>
+<pre><code class="language-text">configs/ppo/           默认与消融配置、固定验证/测试条件
+scripts/train_ppo.py   单次训练、周期验证、保存模型与归一化统计
+scripts/evaluate.py    规则/PPO 的统一评估，输出轨迹与指标
+scripts/run_ablation.py  按配置和训练种子逐项执行，支持跳过已完成运行
+scripts/summarize.py   汇总表格和绘图
+results/              小型汇总 CSV、报告图和运行元数据
+</code></pre>
+<p>现有 <code>RL_assignment/hvac_env/</code> 继续提供物理环境；训练代码与环境代码分开维护。大模型、完整训练日志由已有忽略规则排除，小型配置、结果表与报告图入库。</p>
+<h2>8. 按 11 月 26 日截止倒排</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
+<thead>
+<tr>
+<th>日期建议</th>
+<th>优先完成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11 月 21–22 日</td>
+<td>本机复验、统一评估、默认 PPO 短跑</td>
+</tr>
+<tr>
+<td>11 月 22–23 日</td>
+<td>确认训练流程、冻结实验协议，开始正式运行</td>
+</tr>
+<tr>
+<td>11 月 23–24 日</td>
+<td>完成多种子消融，检查结果完整性</td>
+</tr>
+<tr>
+<td>11 月 24–25 日</td>
+<td>分析结果、完成 10 页报告与展示材料</td>
+</tr>
+<tr>
+<td>11 月 26 日</td>
+<td>检查安装/运行说明、报告与程序一致性，提交</td>
+</tr>
+</tbody>
+</table></div>
+<p>模型和方法部分的写作可以在实验运行期间推进；具体展示日期仍以课程分组通知为准，可能是 11 月 26 日或 12 月 3 日。若发现计算预算不足，优先保证完整、可解释的单因素比较与重复运行，暂不扩展全排列搜索。</p>
+<p>下一次实际动手，首先完成“本机复验 + 统一评估入口”，然后进行默认 PPO 短跑。当前没有实际训练速度或 PPO 成果，所有参数影响都仍是待检验假设。</p>
+
+  </article>
+  <footer>2026-11-21 · 参数与预算为建议起点，尚未运行 PPO。公式已内嵌，可离线阅读或打印为 PDF。</footer>
+</main>
+</body>
+</html>

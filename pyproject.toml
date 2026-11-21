@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aiaa5034-hvac-ppo"
+version = "0.1.0"
+description = "Reproducible PPO hyperparameter experiments for a two-node HVAC environment"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "stable-baselines3==2.7.0",
+  "torch==2.8.0",
+  "gymnasium==1.2.3",
+  "numpy==2.2.6",
+  "scipy==1.15.3",
+  "PyYAML==6.0.3",
+  "matplotlib==3.10.7",
+  "pandas>=2.2,<3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==8.4.2"]
+report = ["pypdf>=5,<7"]
+
+[project.scripts]
+hvac-ppo = "hvac_ppo.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["hvac_ppo*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "RL_assignment/tests"]
+

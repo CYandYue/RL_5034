@@ -1,0 +1,9 @@
+name: ppo
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - -e ./RL_assignment[validation]
+      - -e .[dev,report]
