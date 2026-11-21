@@ -6,6 +6,8 @@
 
 第一次了解项目请读 [项目要求、现有实现与后续工作](docs/PROJECT_GUIDE_zh.md)。
 
+详细建模解释可直接打开 [HTML 阅读版](docs/MODELING_EXPLANATION_zh.html)：公式和热网络图已内嵌，支持离线阅读及浏览器打印。对应的 [Markdown 原文](docs/MODELING_EXPLANATION_zh.md) 一并保留。
+
 ## 目录
 
 ```text
