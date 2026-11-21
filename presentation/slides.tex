@@ -74,7 +74,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 \vspace{3mm}
 \begin{itemize}
 \item One factor at a time: 7 configurations.
-\item 3 seeds each: 21 independent runs.
+\item 3 seeds each: 21 seeded runs.
 \item 512,000 interactions per run.
 \end{itemize}
 \column{.47\textwidth}
@@ -143,6 +143,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 \item Fixed final checkpoints retain late deterioration instead of hiding it.
 \item \SlideStability{}
 \item KL, clipped fraction, late fluctuations and seed spread are complementary diagnostics.
+\item Sparse validation misses some warmer offsets; final tests expose this sensitivity.
 \item Only three training seeds; descriptive rankings, not significance claims.
 \item Synthetic weather, constant COP, fully observed thermal state.
 \item Single-factor design does not resolve all hyperparameter interactions.

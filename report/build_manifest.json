@@ -1,0 +1,40 @@
+{
+  "generated_utc": "2026-11-21T11:22:45.922451+00:00",
+  "report": {
+    "pages": 10,
+    "sha256": "42c01c0dee951adc997cb6b89c4a0fb2f10aa07ac456e6205130b70ed3f6acc6"
+  },
+  "slides": {
+    "pages": 12,
+    "sha256": "9423c629061040fe96f6cfdb05f6560d24d25eef70eb70a91ba2d30cb33555b9"
+  },
+  "author_placeholder": true,
+  "author_source_sha256": "8e7481297081088f5336c0d23f3a6ec6e2359eaa3b41eddeafd45a166478456d",
+  "result_sha256": {
+    "summary.csv": "1a448ed42df41bd3ebc45de544f45899dae69ef53fa9175e402481d484f15024",
+    "validation_curves.csv": "c538d1abe27c0d2f01225de8a4605d78826fb879f261a3466b242703aa2a9a5a",
+    "runtime.csv": "b63e82416c65c771e8772f037fd095f3c75fa00a9d46b22226312c11a850ec1b",
+    "stability.csv": "83276e6cf7b7b30ef28037638cf34518d4f48de8f3b88a3f166d210d91394b60"
+  },
+  "source_sha256": {
+    "report/final_report.tex": "bdfa5524e571581bf1cefc45a00553286ef1a4707411c8767f6f745d8c69f862",
+    "presentation/slides.tex": "bdd113b1b7c8bc136383bcae8772d961265e53a942fd932aebf3c61ba16ea7a4",
+    "report/generated/macros.tex": "a184968d3bc77efa10d1d8efb107132458e521074dc921bfa07f5fbfb14244e3",
+    "report/generated/results_table.tex": "d7cd0444d05570aefd917b2dfbe28d5be413abfc17234df69a2de32cf93b7ed7",
+    "report/generated/slides_table.tex": "c4ceeee87c7c54e0d56218802eb659ae9b27988258676070cf9a8d5704084292",
+    "hvac_ppo/reporting.py": "5e3469f7605486a8e73e55307d8550c0211f29e12a13612b66db18d5704d56b5"
+  },
+  "figure_sha256": {
+    "comfort_energy_tradeoff.pdf": "671c9e6636cf104acd1d969d5b94019611d1c25906de027dfff3ed79369bf6b9",
+    "learning_curves.pdf": "c92b1df62bb94306ac84ccec9c02eb4e8b758ae3b706efc31f1685fe502d22fb",
+    "representative_trajectories.pdf": "62230fb154a2221434b1237c3ae1deb2b55096ba3d9bd818dafa6e7b4c01e66d",
+    "runtime.pdf": "c2671c62c925777bfb5e27e38525f1579b16eb2cfb6b0f5ad3421f478ae717d3",
+    "slides_clip.pdf": "c419060ed060f477ef934df4c8aafe23582aae4d2d97d0dceaebe6a9090ed29f",
+    "slides_cold_trace.pdf": "31ed6c7bfe3a6e66552e4f4b51e552a1bc7fca78b3e20364ed0bf1b1b8861294",
+    "slides_epochs.pdf": "d8d53c72377c44d49f0d7a241f24b0d15e7efeef9561fe66f02006ad3b6ec274",
+    "slides_lambda.pdf": "09d0248564a9fbcca3b9bb10ffa887f1886c1f70a921b4b102dc96d211b89377",
+    "slides_learning.pdf": "961b589e02eb561d461035a1e003a526482684708c67d52c8e5d4b9c97f5590f",
+    "test_metrics.pdf": "6ac57e6c24fef1385a67ed2ed16de57c0709ad83ac9c22b7d8e76b4bd5421db6",
+    "update_diagnostics.pdf": "d67cfba85cf60a12d8d192ae3af7355be83d7ef19f4c00d01abc5b84afdedf3b"
+  }
+}

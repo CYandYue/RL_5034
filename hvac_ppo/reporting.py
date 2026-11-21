@@ -58,6 +58,8 @@ def build_deliverables(results: Path):
     best = overall.loc[best_name]
     runtime = pd.read_csv(results / "runtime.csv").groupby("configuration").mean(numeric_only=True)
     stability = pd.read_csv(results / "stability.csv").groupby("configuration").mean(numeric_only=True)
+    per_seed = pd.read_csv(results / "per_seed_metrics.csv")
+    seed_returns = per_seed[per_seed.scenario == "all"].pivot(index="seed", columns="configuration", values="return_raw")
     curves = pd.read_csv(results / "validation_curves.csv")
     default_curve = curves[curves.configuration == "default"].groupby("timesteps").mean(numeric_only=True)
     energy_change = 100 * (default.energy_kwh_mean / thermostat.energy_kwh - 1)
@@ -71,17 +73,36 @@ def build_deliverables(results: Path):
     def best_family(names):
         return max(names, key=lambda name: overall.loc[name].return_raw_mean)
 
+    def paired_comparison(name):
+        differences = seed_returns[name] - seed_returns["default"]
+        return (f"Relative to the same seed labels at the default, {LABELS[name]} improves return in "
+                f"{int((differences > 0).sum())} of {len(differences)} pairs "
+                f"(mean difference {differences.mean():+.3f}).")
+
+    weakest_clip_seed = seed_returns.clip_030.idxmin()
+
     findings = {
         "AbstractFinding": f"The highest observed mean PPO return is {best.return_raw_mean:.3f} for {LABELS[best_name]}; rankings are descriptive given only three training seeds.",
         "LearningFinding": f"Across the default runs, mean validation return changes from {default_curve.return_raw.iloc[0]:.3f} before training to {default_curve.return_raw.iloc[-1]:.3f} at the final budget. The strongest mean validation point is {default_curve.return_raw.max():.3f}; its difference from the final point is retained by the evaluation protocol. Thus a longer budget does not justify assuming that every run's final policy is its best policy.",
         "PerformanceFinding": f"The default uses {change_words} than the thermostat reference. Its CVR is {abs(cvr_change):.3f} percentage points {'higher' if cvr_change > 0 else 'lower'}. Among PPO configurations, {LABELS[best_name]} has the highest observed mean return ({best.return_raw_mean:.3f}), with {best.cvr_pct_mean:.3f} percent CVR and {best.energy_kwh_mean:.3f} kWh. This is an observed grid ranking, not a test-based choice used to retrain or select checkpoints.",
-        "ClipFinding": f"Mean final-test returns for clip ranges 0.1, 0.2, and 0.3 are {returns(FAMILIES['Clip range'])}, respectively. Corresponding mean update KL estimates are " + ", ".join(f"{stability.loc[name].mean_update_kl:.4g}" for name in FAMILIES["Clip range"]) + ". The best mean in this slice is " + LABELS[best_family(FAMILIES["Clip range"])] + ". These diagnostics describe realized updates and do not establish a hard trust-region constraint.",
-        "LambdaFinding": f"At lambda 0.90, 0.95, and 0.99, mean final-test returns are {returns(FAMILIES['GAE lambda'])}. Across-seed return standard deviations are " + ", ".join(f"{overall.loc[name].return_raw_std:.3f}" for name in FAMILIES["GAE lambda"]) + ". At fixed gamma and architecture, this comparison changes the advantage estimator. Its observed ranking should not be extrapolated to every thermal timescale or value-function accuracy.",
+        "ClipFinding": f"Mean final-test returns for clip ranges 0.1, 0.2, and 0.3 are {returns(FAMILIES['Clip range'])}, respectively. Corresponding mean update KL estimates are " + ", ".join(f"{stability.loc[name].mean_update_kl:.4g}" for name in FAMILIES["Clip range"]) + f". The largest clip's weakest seed is {weakest_clip_seed}, at {seed_returns.loc[weakest_clip_seed, 'clip_030']:.3f}; this run is retained in all summaries. " + paired_comparison("clip_010") + " These diagnostics describe realized updates and do not establish a hard trust-region constraint.",
+        "LambdaFinding": f"At lambda 0.90, 0.95, and 0.99, mean final-test returns are {returns(FAMILIES['GAE lambda'])}. Across-seed return standard deviations are " + ", ".join(f"{overall.loc[name].return_raw_std:.3f}" for name in FAMILIES["GAE lambda"]) + ". " + paired_comparison("lambda_099") + " This changes the advantage estimator at fixed gamma; its ranking should not be extrapolated to every thermal timescale or value-function accuracy.",
         "EpochFinding": f"Five, ten, and twenty epochs give final-test returns of {returns(FAMILIES['Epochs'])}. The corresponding optimization counts are 40,000, 80,000, and 160,000 mini-batch steps. " + LABELS[best_family(FAMILIES["Epochs"])] + " has the highest observed mean return within this slice; additional optimization is not intrinsically a guarantee of better closed-loop control.",
         "StabilityFinding": f"The default's mean late-validation standard deviation is {stability.loc['default'].late_validation_return_std:.3f}. The largest mean late peak-to-final drop occurs for {LABELS[worst_late]} ({stability.loc[worst_late].late_peak_to_final_drop:.3f} return units).",
         "RuntimeFinding": "Mean training wall times excluding periodic validation are " + ", ".join(f"{runtime.loc[name].training_seconds:.1f} seconds" for name in FAMILIES["Epochs"]) + " for 5, 10, and 20 epochs, respectively.",
         "ConclusionFinding": f"Within the frozen seven-configuration experiment, {LABELS[best_name]} achieves the highest observed mean final-test return. The default's physical outcomes are {default.cvr_pct_mean:.3f} percent CVR, {default.degree_hours_mean:.3f} degree-hours, and {default.energy_kwh_mean:.3f} kWh per seven-day episode. Relative to the thermostat, it uses {change_words}; the comfort comparison must be considered separately. The principal result is a task-specific account of sample efficiency, comfort--energy balance, update variability, and computational cost, rather than a universal optimal PPO setting.",
     }
+    coverage = pd.read_csv(results / "condition_coverage.csv").set_index(["split", "scenario"])
+    ranges = []
+    for scene in ("hot", "transition"):
+        v, t = coverage.loc[("validation", scene)], coverage.loc[("test", scene)]
+        ranges.append(f"{scene}: [{v.weather_delta_min_c:.2f}, {v.weather_delta_max_c:.2f}] versus "
+                      f"[{t.weather_delta_min_c:.2f}, {t.weather_delta_max_c:.2f}]")
+    findings["CoverageFinding"] = ("The finite tables have unequal weather-offset coverage (validation versus test, degrees C): "
+                                   + "; ".join(ranges) + ". These conditions remain within training support, "
+                                   "but validation rankings need not match test rankings. In particular, the largest-clip run with seed 2 "
+                                   "has appreciably worse final-test control in some hot and transition conditions. "
+                                   "An independent model reload reproduces its test metrics exactly; it is retained without retuning the protocol.")
     traces = pd.read_csv(results / "default_seed0_traces.csv")
     medians = [traces[(traces.scenario == name) & (traces.step > 0)].indoor_c.median()
                for name in ("cold", "hot", "transition")]
@@ -128,9 +149,15 @@ def build_deliverables(results: Path):
     report_pdf = compile_pdf(report, "final_report.tex", "final_report.pdf", 10)
     slides_pdf = compile_pdf(ROOT / "presentation", "slides.tex", "slides.pdf", 12)
     manifest = {"generated_utc": datetime.now(timezone.utc).isoformat(), "report": report_pdf,
-                "slides": slides_pdf, "authors": "pending team-provided names and IDs",
+                "slides": slides_pdf,
+                "author_placeholder": "to be supplied" in (report / "author.tex").read_text(),
+                "author_source_sha256": file_hash(report / "author.tex"),
                 "result_sha256": {name: file_hash(results / name) for name in
-                                  ("summary.csv", "validation_curves.csv", "runtime.csv", "stability.csv")}}
+                                  ("summary.csv", "validation_curves.csv", "runtime.csv", "stability.csv")},
+                "source_sha256": {str(path.relative_to(ROOT)): file_hash(path) for path in
+                                  [report / "final_report.tex", ROOT / "presentation/slides.tex",
+                                   *sorted(generated.glob("*.tex")), ROOT / "hvac_ppo/reporting.py"]},
+                "figure_sha256": {path.name: file_hash(path) for path in sorted((results / "figures").glob("*.pdf"))}}
     write_json(report / "build_manifest.json", manifest)
     print("Built ten-page report, twelve-slide presentation, speaker notes, Q&A, and Chinese HTML guide.")
 
@@ -152,6 +179,10 @@ def build_chinese_guide(results, overall, thermostat, findings):
         "表中先对每个训练模型的 30 条固定测试条件取平均，再跨三个训练种子求均值与样本标准差。测试回合数与独立训练次数不同。关闭空调的零能耗不代表合理温控；恒温器是舒适中点 ±0.5°C 死区的满功率参考。",
         "完整曲线显示先消除大幅温度越界、再改变能耗和残余越界的学习过程。后期仍可能出现回落，所以报告保留固定末次模型，并另列后半程波动及最佳点到末点的下降幅度。",
         "clip_range 改变 PPO 目标对概率比变化的裁剪；gae_lambda 改变优势估计；n_epochs 改变同批数据的重复优化次数。KL、裁剪比例、最终物理指标与跨种子波动应一起读，单个诊断值不能独立证明稳定。",
+        "clip_range 取 0.1、0.2、0.3 时，平均最终回报分别是 " + "、".join(f"{overall.loc[name].return_raw_mean:.3f}" for name in FAMILIES["Clip range"]) + "，标准差分别是 " + "、".join(f"{overall.loc[name].return_raw_std:.3f}" for name in FAMILIES["Clip range"]) + "。较大的裁剪范围并没有稳定地换来更高回报；需结合个别种子的退化和误差条解读，不能删除表现差的运行后再做比较。",
+        "gae_lambda 取 0.90、0.95、0.99 时，平均最终回报分别是 " + "、".join(f"{overall.loc[name].return_raw_mean:.3f}" for name in FAMILIES["GAE lambda"]) + "。lambda 调整的是优势估计，gamma 保持 0.99；这个结果不代表热惯性越强就一定该使用越大的 lambda。",
+        "n_epochs 取 5、10、20 时，平均最终回报分别是 " + "、".join(f"{overall.loc[name].return_raw_mean:.3f}" for name in FAMILIES["Epochs"]) + "。环境交互预算虽然相同，mini-batch 优化次数却分别为 40,000、80,000、160,000 次；比较训练效果时也需要看时间成本，以及后期是否发生回落。",
+        "一个具体局限是：固定验证表中，热天和过渡天气的 5 个温度偏移都恰好为负；测试表包含同一训练分布内较暖的条件。clip=0.3 的种子 2 在部分这些条件下明显越界，因此验证曲线的排名与最终测试不完全一致。独立重载该模型重评 30 条条件，指标逐项一致；我们保留该运行和原协议。后续可在新的实验中使用覆盖更均匀的条件表，而不据当前测试反过来改动本次协议。",
         "这些实验只覆盖合成房间、周期天气、固定 COP、完整热状态可见和三种训练种子。不能据此宣称真实建筑节能比例，或推断参数之间所有交互。英文报告包含完整方法、参考文献及限制。",
     ]
     figures = [("learning_curves", "验证学习曲线：阴影为三个训练种子的样本标准差，下排放大后期。"),
@@ -175,14 +206,14 @@ def build_speaker_notes(findings, default, thermostat):
         ("1. Question and scope (0:00–0:45)", "Our project studies PPO hyperparameters for single-room HVAC control. The goal is to understand how clip range, GAE lambda, and update epochs affect comfort, electricity, and training stability. A teammate supplied the thermal simulator and physical validation. We added the training and evaluation pipeline, ran controlled experiments locally, and analyzed the results. We focus on this synthetic task and do not claim measured savings in a real building."),
         ("2. Physical environment (0:45–1:45)", "The environment has two equivalent temperatures: the indoor node and the envelope node. Thermal resistances determine heat flow, while capacitances store energy and create inertia. The controller sees eleven numbers, including both temperatures, weather, gains, comfort bounds, time, and scenario. Its action controls heating or cooling power every fifteen minutes. The reward penalizes discomfort and electricity. We also report the physical components separately, because a better weighted reward may trade a little comfort for lower energy."),
         ("3. PPO mechanism (1:45–2:50)", "PPO first collects a rollout with the current policy. The critic and GAE estimate whether sampled actions were better or worse than the policy's usual outcome in those states. The actor then changes their likelihood through the clipped objective. Lambda controls the advantage estimator. Clip range changes the surrogate objective. Epochs determine how often we reuse a rollout. The actor and critic have separate small networks. Gradients pass through action probabilities, not through the physical room equations."),
-        ("4. Experimental protocol (2:50–3:50)", "We varied one factor at a time around the common default. Sharing the default gives seven configurations, and three seeds each give twenty-one runs. Every run receives exactly five hundred and twelve thousand environment interactions. Architecture, reward, learning rate, gamma, normalization, and sampling settings are fixed. Validation and final-test conditions are separate. We test each run's final checkpoint instead of choosing its best test result. The rules use the same physical conditions, and all experiments run on an M4 CPU under screen."),
+        ("4. Experimental protocol (2:50–3:50)", "We varied one factor at a time around the common default. Sharing the default gives seven configurations, and three seeds each give twenty-one seeded runs. Every run receives exactly five hundred and twelve thousand environment interactions. Architecture, reward, learning rate, gamma, normalization, and sampling settings are fixed. Validation and final-test conditions are separate. We test each run's final checkpoint instead of choosing its best test result. The rules use the same physical conditions, and all experiments run on an M4 CPU under screen."),
         ("5. Learning curves (3:50–4:50)", "This slide shows the validation cost, which is minus return, on a logarithmic scale. Lower is better. The large early penalties reflect poor temperature regulation. Later differences concern electricity and residual discomfort, as well as possible policy deterioration. The full report includes ordinary return plots and across-seed bands. A lower training loss is not a guarantee of monotonic closed-loop improvement, so the fixed final-checkpoint rule is important."),
         ("6. Final metrics (4:50–6:00)", "The table separates return, comfort violation rate, and electricity. " + findings["SlidePerformance"] + " Each PPO entry first averages its thirty test conditions, then averages across three training seeds. The error bars describe training variability; thirty episodes do not provide thirty independent trained models. HVAC off has zero electricity but can have severe discomfort. The thermostat is a meaningful conventional reference. We avoid calling one method universally better when comfort and electricity move in different directions."),
         ("7. Clip range (6:00–6:55)", "Here we compare the three clip ranges while keeping lambda and epochs fixed. " + findings["SlideClip"] + " Clipping discourages additional gains from excessive probability-ratio changes in the preferred direction. It does not impose a hard bound on the final ratio or KL divergence. We therefore examine approximate KL, clipped fraction, learning curves, and final physical outcomes together. The ranking is specific to this experiment and comes from only three seeds."),
         ("8. GAE lambda (6:55–7:50)", "Here gamma stays fixed while lambda changes how TD residuals are combined. " + findings["SlideLambda"] + " Larger lambda uses longer reward fragments, which can reduce dependence on short-horizon value bootstrapping but increase variability. Thermal inertia makes delayed effects relevant, yet it does not imply that the largest lambda must win. The comparison also depends on the value network and rollout settings, so we describe the observed results without a universal monotonic claim."),
         ("9. Epochs and computation (7:50–8:50)", "Epochs change how many times a rollout is optimized. At our common sample budget, five, ten, and twenty epochs correspond to forty thousand, eighty thousand, and one hundred and sixty thousand mini-batch updates. " + findings["SlideEpochs"] + " We compare sample efficiency at equal interactions and report wall time separately. More computation can improve data reuse but can also drive stronger policy changes. The runtime numbers are practical local measurements, affected by parallel load and machine temperature."),
         ("10. Closed-loop trace (8:50–9:50)", "This is the preselected cold-weather test condition zero. The default PPO uses seed zero, and the thermostat starts from identical conditions. The comfort band provides a reference for indoor temperature. The lower plot shows cumulative electricity, not instantaneous power. Different locations within the comfort band can lead to different energy use. The report also shows outdoor forcing, executed actions, and the hot and transition scenes. This is an illustration; aggregate conclusions use every fixed test condition and training seed."),
-        ("11. Stability and limitations (9:50–10:55)", "We retain late validation deterioration because we test the final checkpoint. " + findings["SlideStability"] + " The diagnostics are complementary rather than standalone failure criteria. Three seeds limit our uncertainty estimate, and a one-factor design does not resolve every interaction. The simulator also uses synthetic repeating weather, constant COP, and direct observation of envelope temperature. It lacks humidity, equipment cycling, and real-building calibration. These boundaries matter when interpreting the results."),
+        ("11. Stability and limitations (9:50–10:55)", "We retain late validation deterioration because we test the final checkpoint. " + findings["SlideStability"] + " The diagnostics are complementary rather than standalone failure criteria. Our small validation realization contains only negative offsets in hot and transition weather. Final tests include warmer offsets and reveal sensitivity in one large-clip seed; independently reloading that model reproduces its metrics exactly. Three seeds and one-factor comparisons also limit our conclusions. The simulator uses repeating weather, constant COP, and direct envelope-temperature observation, without real-building calibration."),
         ("12. Conclusion (10:55–12:00)", findings["SlideConclusion"] + " Our main outcome is a reproducible account of how these parameters affect learning, comfort, energy, stability, and compute in one controlled task. We do not collapse all these dimensions into a single universal recommendation. The complete workflow runs on a local Mac and includes tests, fixed scenarios, models, logs, and generated figures. Useful extensions would add more seeds, study a limited set of interactions, or introduce calibrated dynamics and realistic weather. Thank you, and we welcome questions."),
     ]
     text = "# English presentation notes\n\nTarget: about 12 minutes including pointing at figures and transitions. Suggested team split: slides 1–4, 5–8, 9–12. Rehearse against the actual PDF; timing is a guide.\n\n"
@@ -201,6 +232,7 @@ def build_speaker_notes(findings, default, thermostat):
 - **PPO 是否一定优于恒温器？** 不一定，需分别比较舒适、能耗和加权回报。恒温器以舒适中点为设定值，PPO 可以学习其他温度位置和动作幅度。
 - **误差条是什么？** 每个模型先平均固定测试条件，再对三个独立训练种子计算样本标准差；不是把测试回合当作训练重复，也不是显著性检验。
 - **为什么最后一个模型可能更差？** PPO 的更新目标与实际闭环指标存在采样/估计误差，策略可后期退化。我们预先固定末次模型，避免事后挑最好检查点。
+- **为什么验证曲线不错，测试却退化？** 两者使用不同物理条件。本次小验证表中热天和过渡天气恰好只有负偏移；测试包含同一训练范围内更暖的偏移，暴露了大 clip 的一个种子对条件的敏感性。独立重载重评得到完全一致的指标；不能看完测试后改条件或删掉较差运行。后续新实验可预先设计覆盖更均匀的条件表。
 - **为什么不使用真实建筑？** 本题允许简单热模型；模型缺少实测校准，因此不据此声称真实建筑预测精度或节能比例。
 - **天气是否足够真实？** 当前是日周期函数，偏移每回合随机、每天形状重复。最终测试仍在训练分布内，没有证明跨气候和跨建筑泛化。
 - **为什么环境提供围护温度？** 这是完整状态可观测的仿真假设；真实系统通常需要传感或状态估计。
