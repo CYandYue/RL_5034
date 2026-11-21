@@ -29,6 +29,8 @@ Thirty test episodes are repeated conditions for one learned model, not thirty i
 
 `figures/` contains both vector PDF and PNG versions of the learning curves, physical metrics, comfort–energy tradeoff, update diagnostics, runtime, and preselected trajectories. The `slides_*` figures use the same data with layouts for presentation. Learning bands show across-seed SD; update-diagnostic lines are seed means followed by a five-update moving average.
 
+For editing presentations, use the portable [figure asset folder and offline gallery](../figure_assets/index.html). It contains verified PNG/PDF copies and a Chinese chart guide. Refresh it after regenerating figures with `python scripts/export_figure_assets.py`; the report continues to use `results/figures/`.
+
 With complete local models and logs present:
 
 ```bash

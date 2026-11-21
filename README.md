@@ -15,6 +15,7 @@
 - [中文结果解读（离线 HTML）](docs/RESULTS_zh.html)：先看结论，再结合曲线理解三个参数的影响。
 - [英文报告 PDF](report/final_report.pdf)（10 页）及 [LaTeX 源文件](report/final_report.tex)。
 - [展示 PDF](presentation/slides.pdf)（12 页）、[英文讲稿](presentation/speaker_notes.md)和[中文问答准备](presentation/QA_zh.md)。
+- [绘图素材预览](figure_assets/index.html)：11 组 PNG / 矢量 PDF，供组员修改 PPT；[图名与使用说明](figure_assets/README.md)。
 - [结果文件说明](results/README.md)、[最终指标 CSV](results/summary.csv)及[验收记录](docs/FINAL_VERIFICATION.md)。
 
 三位成员的姓名和学号稍后填写到 `report/author.tex`，然后重新生成报告和展示。
@@ -30,6 +31,7 @@ RL_5034/
 ├── tests/                    # 新增的训练/评价/协议集成测试
 ├── scripts/                  # screen 批次入口
 ├── results/                  # 实际小型结果表、原始更新诊断和 PDF/PNG 图
+├── figure_assets/            # 供修改 PPT 的图素材副本、使用说明和离线预览
 ├── docs/                     # 中文解释、实验协议、运行及验收记录
 ├── report/                   # 10 页英文报告、源文件和构建清单
 ├── presentation/             # 12 页展示、源文件、讲稿及问答

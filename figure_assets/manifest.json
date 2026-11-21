@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "figure_count": 11,
+  "files": [
+    {
+      "source": "results/figures/slides_learning.png",
+      "path": "png/slides_learning.png",
+      "sha256": "12f414ea5ad6f7b69344cd976af1a1df99e8ee7429c4b543add5b4e753f4a6f6",
+      "bytes": 99578
+    },
+    {
+      "source": "results/figures/slides_learning.pdf",
+      "path": "pdf/slides_learning.pdf",
+      "sha256": "961b589e02eb561d461035a1e003a526482684708c67d52c8e5d4b9c97f5590f",
+      "bytes": 13919
+    },
+    {
+      "source": "results/figures/slides_clip.png",
+      "path": "png/slides_clip.png",
+      "sha256": "6f93c0a9497833c0978d7a8d897dfafb0a2f89a10cb2666ce2ff378f8b48e2d4",
+      "bytes": 60550
+    },
+    {
+      "source": "results/figures/slides_clip.pdf",
+      "path": "pdf/slides_clip.pdf",
+      "sha256": "c419060ed060f477ef934df4c8aafe23582aae4d2d97d0dceaebe6a9090ed29f",
+      "bytes": 15000
+    },
+    {
+      "source": "results/figures/slides_lambda.png",
+      "path": "png/slides_lambda.png",
+      "sha256": "9eb1a0ef897a8c5cc467c7d9c51c3c998e2c81955ec959d8bc3d7acf2fba9ed6",
+      "bytes": 57448
+    },
+    {
+      "source": "results/figures/slides_lambda.pdf",
+      "path": "pdf/slides_lambda.pdf",
+      "sha256": "09d0248564a9fbcca3b9bb10ffa887f1886c1f70a921b4b102dc96d211b89377",
+      "bytes": 15292
+    },
+    {
+      "source": "results/figures/slides_epochs.png",
+      "path": "png/slides_epochs.png",
+      "sha256": "c650a70c82d8e83634e6e86b0bc0cc9650777d9933b8b482afa734811ac934ee",
+      "bytes": 61295
+    },
+    {
+      "source": "results/figures/slides_epochs.pdf",
+      "path": "pdf/slides_epochs.pdf",
+      "sha256": "d8d53c72377c44d49f0d7a241f24b0d15e7efeef9561fe66f02006ad3b6ec274",
+      "bytes": 15166
+    },
+    {
+      "source": "results/figures/slides_cold_trace.png",
+      "path": "png/slides_cold_trace.png",
+      "sha256": "96e49dac52aa5acce1c284b31c062b92fc6528d882fb6fee7d892b43cb66ab0a",
+      "bytes": 106573
+    },
+    {
+      "source": "results/figures/slides_cold_trace.pdf",
+      "path": "pdf/slides_cold_trace.pdf",
+      "sha256": "31ed6c7bfe3a6e66552e4f4b51e552a1bc7fca78b3e20364ed0bf1b1b8861294",
+      "bytes": 30807
+    },
+    {
+      "source": "results/figures/learning_curves.png",
+      "path": "png/learning_curves.png",
+      "sha256": "58940fbce1cd034111aa9eb4f6d1dcb8c30b762024648ede999ee8510a3a02c5",
+      "bytes": 324963
+    },
+    {
+      "source": "results/figures/learning_curves.pdf",
+      "path": "pdf/learning_curves.pdf",
+      "sha256": "c92b1df62bb94306ac84ccec9c02eb4e8b758ae3b706efc31f1685fe502d22fb",
+      "bytes": 25526
+    },
+    {
+      "source": "results/figures/comfort_energy_tradeoff.png",
+      "path": "png/comfort_energy_tradeoff.png",
+      "sha256": "50d3a8c8954ad554b3d538bdf16719d7f7fa7eb5c68c35f846d6f5e070dbb940",
+      "bytes": 47952
+    },
+    {
+      "source": "results/figures/comfort_energy_tradeoff.pdf",
+      "path": "pdf/comfort_energy_tradeoff.pdf",
+      "sha256": "671c9e6636cf104acd1d969d5b94019611d1c25906de027dfff3ed79369bf6b9",
+      "bytes": 17116
+    },
+    {
+      "source": "results/figures/update_diagnostics.png",
+      "path": "png/update_diagnostics.png",
+      "sha256": "7d0d7107af7b587a9cf836f142a2d6a1ed548abdd5165ec730ba2023aa16c174",
+      "bytes": 363730
+    },
+    {
+      "source": "results/figures/update_diagnostics.pdf",
+      "path": "pdf/update_diagnostics.pdf",
+      "sha256": "d67cfba85cf60a12d8d192ae3af7355be83d7ef19f4c00d01abc5b84afdedf3b",
+      "bytes": 54092
+    },
+    {
+      "source": "results/figures/representative_trajectories.png",
+      "path": "png/representative_trajectories.png",
+      "sha256": "0656a820c51e3369dfd6a007534b8f32cbbcef80d9d47cd8c41cda3f29afd3e0",
+      "bytes": 314407
+    },
+    {
+      "source": "results/figures/representative_trajectories.pdf",
+      "path": "pdf/representative_trajectories.pdf",
+      "sha256": "62230fb154a2221434b1237c3ae1deb2b55096ba3d9bd818dafa6e7b4c01e66d",
+      "bytes": 95076
+    },
+    {
+      "source": "results/figures/test_metrics.png",
+      "path": "png/test_metrics.png",
+      "sha256": "052aac3edbcad6338abab6794ac721162a6c5f8a32f8acdbabce86a40cddc889",
+      "bytes": 190065
+    },
+    {
+      "source": "results/figures/test_metrics.pdf",
+      "path": "pdf/test_metrics.pdf",
+      "sha256": "6ac57e6c24fef1385a67ed2ed16de57c0709ad83ac9c22b7d8e76b4bd5421db6",
+      "bytes": 21933
+    },
+    {
+      "source": "results/figures/runtime.png",
+      "path": "png/runtime.png",
+      "sha256": "efb1bf19c813c7a52b22a301a93b9e1420beacdd246e8956255cc0d2f094c5d1",
+      "bytes": 32824
+    },
+    {
+      "source": "results/figures/runtime.pdf",
+      "path": "pdf/runtime.pdf",
+      "sha256": "c2671c62c925777bfb5e27e38525f1579b16eb2cfb6b0f5ad3421f478ae717d3",
+      "bytes": 12709
+    }
+  ]
+}
