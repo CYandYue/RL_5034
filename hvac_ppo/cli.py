@@ -63,6 +63,8 @@ def make_parser():
     summary.add_argument("--runs", type=Path, default=ROOT / "runs/ablation")
     summary.add_argument("--rules", type=Path, default=ROOT / "results/baselines")
     summary.add_argument("--output", type=Path, default=ROOT / "results")
+    report = sub.add_parser("report", help="build the ten-page report, presentation, and Chinese results guide")
+    report.add_argument("--results", type=Path, default=ROOT / "results")
     return parser
 
 
@@ -164,4 +166,7 @@ def main(argv=None):
     elif args.command == "summarize":
         from .analysis import summarize
         summarize(args.runs, args.rules, args.output)
+    elif args.command == "report":
+        from .reporting import build_deliverables
+        build_deliverables(args.results)
     return 0

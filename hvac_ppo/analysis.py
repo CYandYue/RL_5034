@@ -138,6 +138,7 @@ def summarize(runs: Path, rules: Path, output: Path):
              "runtime": runtime.groupby("configuration").mean(numeric_only=True).reset_index().to_dict("records"),
              "stability": stability.groupby("configuration").mean(numeric_only=True).reset_index().to_dict("records")}
     write_json(output / "facts.json", facts)
+    pd.read_csv(runs / "default/seed_0/test_traces.csv").to_csv(output / "default_seed0_traces.csv", index=False)
     plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False,
                          "axes.grid": True, "grid.alpha": 0.18, "pdf.fonttype": 42, "ps.fonttype": 42})
     plot_learning(all_curves, figures)
@@ -145,6 +146,7 @@ def summarize(runs: Path, rules: Path, output: Path):
     plot_diagnostics(all_diagnostics, figures)
     plot_runtime(runtime, figures)
     plot_trajectories(runs, rules, figures)
+    plot_presentation(curves=all_curves, summary=summary, runs=runs, rules=rules, figures=figures)
     print(f"Validated and summarized {len(manifests)} runs, {len(all_episodes)} test episodes: {output}")
 
 
@@ -247,3 +249,37 @@ def plot_trajectories(runs, rules, figures):
     for row, label in enumerate(("Indoor (C)", "Outdoor (C)", "Action", "Cumulative kWh")):
         axes[row, 0].set_ylabel(label)
     save_figure(fig, figures, "representative_trajectories")
+
+
+def plot_presentation(curves, summary, runs, rules, figures):
+    fig, ax = plt.subplots(figsize=(9, 4.3))
+    for index, name in enumerate(LABELS):
+        grouped = curves[curves.configuration == name].groupby("timesteps").return_raw.mean()
+        ax.plot(grouped.index.to_numpy() / 1000, -grouped, label=LABELS[name], color=plt.cm.tab10(index))
+    ax.set(xlabel="Environment steps (thousands)", ylabel="Validation cost (-return; log scale)", yscale="log")
+    ax.legend(fontsize=9, ncol=2)
+    save_figure(fig, figures, "slides_learning")
+    overall = summary[summary.scenario == "all"].set_index("configuration")
+    for family, names in FAMILIES.items():
+        fig, axes = plt.subplots(1, 3, figsize=(11, 3.3))
+        for ax, metric, label in zip(axes, ["return_raw", "cvr_pct", "energy_kwh"],
+                                      ["Return (higher is better)", "CVR (%)", "Electricity (kWh)"]):
+            table = overall.loc[names]
+            ax.errorbar(range(3), table[metric + "_mean"], yerr=table[metric + "_std"],
+                        fmt="o-", color="#226c5b", capsize=5)
+            ax.set_xticks(range(3), [LABELS[name] for name in names], fontsize=9)
+            ax.set_title(label, fontsize=11)
+        name = {"Clip range": "clip", "GAE lambda": "lambda", "Epochs": "epochs"}[family]
+        save_figure(fig, figures, f"slides_{name}")
+    ppo = pd.read_csv(runs / "default/seed_0/test_traces.csv")
+    rule = pd.read_csv(rules / "thermostat_traces.csv")
+    ppo, rule = ppo[ppo.scenario == "cold"], rule[rule.scenario == "cold"]
+    fig, axes = plt.subplots(2, 1, figsize=(9, 4.8), sharex=True)
+    for table, label, color in ((ppo, "Default PPO, seed 0", "#226c5b"), (rule, "Thermostat", "#b86c43")):
+        axes[0].plot(table.time_h / 24, table.indoor_c, label=label, color=color)
+        axes[1].plot(table.time_h / 24, table.cumulative_kwh, color=color)
+    axes[0].fill_between(ppo.time_h / 24, ppo.comfort_low_c, ppo.comfort_high_c, alpha=.13, color="#70966c")
+    axes[0].set_ylabel("Indoor (C)")
+    axes[0].legend(fontsize=9)
+    axes[1].set(xlabel="Elapsed days", ylabel="Cumulative kWh")
+    save_figure(fig, figures, "slides_cold_trace")

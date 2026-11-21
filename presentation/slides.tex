@@ -1,0 +1,162 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,booktabs,graphicx}
+\usetheme{default}
+\usecolortheme{dove}
+\setbeamercolor{structure}{fg=green!35!black}
+\setbeamercolor{frametitle}{fg=green!30!black}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\input{../report/generated/macros.tex}
+\input{../report/author.tex}
+\title{PPO Hyperparameters for Room HVAC Control}
+\subtitle{Clip range, GAE lambda, and update epochs}
+\author{\TeamAuthors}
+\institute{AIAA 5034 --- Topic 16}
+\date{Fall 2026}
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{A small physical model with delayed effects}
+\begin{columns}
+\column{.55\textwidth}
+\begin{align*}
+C_i\dot T_i&=(T_e-T_i)/R_{ie}+Q_{\rm hvac}+Q_g\\
+C_e\dot T_e&=(T_o-T_e)/R_{eo}+(T_i-T_e)/R_{ie}
+\end{align*}
+\begin{itemize}
+\item Two equivalent temperatures; stored heat causes inertia.
+\item 11 observations, one continuous heating/cooling action.
+\item 15-minute control; seven-day episodes.
+\end{itemize}
+\column{.42\textwidth}
+\begin{block}{Fixed objective}
+$r_t=-\Delta t\,d_t-0.1E_t$
+\end{block}
+\begin{itemize}
+\item Comfort violations: CVR and degree-hours.
+\item Electricity: kWh.
+\item Model and physical tests supplied by teammate.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{PPO: three parameters, three stages}
+\begin{enumerate}
+\item Collect a rollout using the current actor and value network.
+\item Estimate advantages using GAE: \textbf{lambda}.
+\item Optimize the clipped policy objective: \textbf{clip range}.
+\item Repeat mini-batch optimization: \textbf{epochs}.
+\end{enumerate}
+\vspace{2mm}
+\[
+\hat A_t=\sum_l(\gamma\lambda)^l\delta_{t+l},\qquad
+L^{\rm clip}=\mathbb E\big[\min(\rho\hat A,\mathrm{clip}(\rho,1-\epsilon,1+\epsilon)\hat A)\big]
+\]
+\begin{itemize}
+\item Separate two-layer 64-unit actor/critic MLPs; 9,987 parameters.
+\item Observe raw physical metrics; freeze normalization at evaluation.
+\item Clipping is a surrogate objective, not a hard KL bound.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{A controlled and reproducible comparison}
+\begin{columns}
+\column{.49\textwidth}
+\begin{tabular}{lccc}
+\toprule Factor & Small & Default & Large\\\midrule
+Clip range & 0.1 & 0.2 & 0.3\\
+GAE lambda & 0.90 & 0.95 & 0.99\\
+Epochs & 5 & 10 & 20\\\bottomrule
+\end{tabular}
+\vspace{3mm}
+\begin{itemize}
+\item One factor at a time: 7 configurations.
+\item 3 seeds each: 21 independent runs.
+\item 512,000 interactions per run.
+\end{itemize}
+\column{.47\textwidth}
+\begin{itemize}
+\item Separate fixed validation and test conditions.
+\item 30 final conditions, balanced across weather.
+\item Final checkpoint, without test-based selection.
+\item Same conditions for off and thermostat rules.
+\item M4 CPU, 16 GB; two processes under screen.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Learning: avoid discomfort first, then refine control}
+\centering
+\includegraphics[width=.85\linewidth,height=.64\textheight,keepaspectratio]{../results/figures/slides_learning.pdf}
+\par\small Across-seed means; logarithmic cost axis. Full return curves and seed variability are in the report.
+\end{frame}
+
+\begin{frame}{Final test: comfort and electricity must be reported separately}
+\centering
+\input{../report/generated/slides_table.tex}
+\vspace{2mm}
+\begin{itemize}
+\item PPO: means $\pm$ sample SD across training seeds, after averaging conditions.
+\item A higher weighted return need not improve both physical metrics.
+\item \SlidePerformance{}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Clip range: changing the policy-update objective}
+\centering
+\includegraphics[width=\linewidth]{../results/figures/slides_clip.pdf}
+\begin{itemize}
+\item Smaller clipping discourages large favorable probability-ratio changes earlier.
+\item \SlideClip{}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{GAE lambda: changing the advantage estimate}
+\centering
+\includegraphics[width=\linewidth]{../results/figures/slides_lambda.pdf}
+\begin{itemize}
+\item Larger lambda uses longer reward fragments; value errors and variance matter.
+\item \SlideLambda{}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Epochs: data reuse also changes computation}
+\centering
+\includegraphics[width=\linewidth]{../results/figures/slides_epochs.pdf}
+\begin{itemize}
+\item 5/10/20 epochs: 40k/80k/160k optimizer steps at the same sample budget.
+\item \SlideEpochs{}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{A preselected cold-weather trajectory}
+\centering
+\includegraphics[width=.82\linewidth,height=.73\textheight,keepaspectratio]{../results/figures/slides_cold_trace.pdf}
+\par\small Condition \texttt{test\_cold\_00}; default PPO seed 0. Other scenes and executed actions are in the report.
+\end{frame}
+
+\begin{frame}{Stability and limits of the evidence}
+\begin{itemize}
+\item Fixed final checkpoints retain late deterioration instead of hiding it.
+\item \SlideStability{}
+\item KL, clipped fraction, late fluctuations and seed spread are complementary diagnostics.
+\item Only three training seeds; descriptive rankings, not significance claims.
+\item Synthetic weather, constant COP, fully observed thermal state.
+\item Single-factor design does not resolve all hyperparameter interactions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusions and questions}
+\begin{itemize}
+\item \SlideConclusion{}
+\item Comfort, energy, learning progress and compute cost need separate assessment.
+\item Complete local workflow: tested model, shared evaluation, audited runs and reproducible plots.
+\item Next steps: more seeds, limited interaction study, and realistic thermal/equipment data.
+\end{itemize}
+\vspace{5mm}
+\centering\Large Questions?
+\end{frame}
+\end{document}
