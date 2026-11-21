@@ -1,0 +1,88 @@
+$ /tmp/aiaa5034-hvac-venv/bin/python - <<'PY'
+import platform
+from importlib.metadata import version
+print(platform.python_implementation(), platform.python_version(), platform.system(), platform.machine())
+for name in ("aiaa5034-hvac-env", "numpy", "scipy", "gymnasium", "PyYAML", "pytest", "matplotlib"):
+    print(name, version(name))
+PY
+CPython 3.12.16 Linux x86_64
+aiaa5034-hvac-env 1.0.0
+numpy 2.2.6
+scipy 1.15.3
+gymnasium 1.2.3
+PyYAML 6.0.3
+pytest 8.4.2
+matplotlib 3.10.7
+[exit 0]
+
+$ /tmp/aiaa5034-hvac-venv/bin/pytest -q
+........................................................................ [ 94%]
+....                                                                     [100%]
+=============================== warnings summary ===============================
+tests/test_env_api.py::test_gymnasium_checker
+  /tmp/aiaa5034-hvac-venv/lib/python3.12/site-packages/gymnasium/utils/env_checker.py:434: UserWarning: WARN: Not able to test alternative render modes due to the environment not having a spec. Try instantiating the environment through `gymnasium.make`
+    logger.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+76 passed, 1 warning in 1.19s
+[exit 0]
+
+$ /tmp/aiaa5034-hvac-venv/bin/pytest -q -s -p no:cacheprovider tests/test_thermal.py tests/test_hvac.py::test_single_step_action_direction
+.poles per hour: [-0.02859734 -0.17777103]; discrete poles: [0.99287616 0.95653035]
+.ZOH vs ODE maximum error (indoor, envelope) degC: [4.96314101e-12 2.22915020e-11]
+.stored=-3.97238410596027 kW, external=-3.97238410596026 kW, residual=-1.332e-15 kW
+.stored=2.55562913907284 kW, external=2.55562913907285 kW, residual=-3.997e-15 kW
+.stored=-1.87405646556726e-15 kW, external=0 kW, residual=-1.874e-15 kW
+.passive temperatures after 40 days: [5. 5.] degC, max error: 2.672e-11 degC
+.....next indoor degC for actions -0.5, 0, +0.5: [21.866133752899167, 21.978292223431726, 22.090450693964286]
+.
+12 passed in 0.16s
+[exit 0]
+
+$ /tmp/aiaa5034-hvac-venv/bin/python - <<'PY'
+from gymnasium.utils.env_checker import check_env
+from hvac_env import HVAC2R2CEnv
+check_env(HVAC2R2CEnv())
+print("check_env passed")
+PY
+/tmp/aiaa5034-hvac-venv/lib/python3.12/site-packages/gymnasium/utils/env_checker.py:434: UserWarning: WARN: Not able to test alternative render modes due to the environment not having a spec. Try instantiating the environment through `gymnasium.make`
+  logger.warn(
+check_env passed
+[exit 0]
+
+$ MPLCONFIGDIR=/tmp/aiaa5034-hvac-mpl /tmp/aiaa5034-hvac-venv/bin/python scripts/dynamics_sanity.py --output-dir outputs --plot
+outputs/dynamics_trace.csv: 304 intervals
+outputs/thermal_sanity.png
+[exit 0]
+
+$ /tmp/aiaa5034-hvac-wheel-test/bin/python -I - <<'PY'
+from pathlib import Path
+from importlib.resources import files
+import hvac_env
+env = hvac_env.HVAC2R2CEnv()
+assert "site-packages" in Path(hvac_env.__file__).parts
+assert files("hvac_env").joinpath("configs", "default.yaml").is_file()
+obs, _ = env.reset(seed=42)
+obs, reward, terminated, truncated, info = env.step([-0.5])
+assert env.observation_space.contains(obs) and info["energy_kwh_step"] > 0
+print("Wheel import, packaged YAML, reset and step passed:", hvac_env.__file__)
+PY
+Wheel import, packaged YAML, reset and step passed: /tmp/aiaa5034-hvac-wheel-test/lib/python3.12/site-packages/hvac_env/__init__.py
+[exit 0]
+
+$ /tmp/aiaa5034-hvac-venv/bin/python -m pip --disable-pip-version-check --no-cache-dir check
+No broken requirements found.
+[exit 0]
+
+$ sha256sum hvac_env/configs/default.yaml outputs/dynamics_trace.csv outputs/thermal_sanity.png
+d3bebb2192820c6b2f353739eafb5202f1a72d9a4e0648011442b99cb62075e6  hvac_env/configs/default.yaml
+1a492924c8c85224afbb0a27ebbf78501f606c0b66d785397a11623cfcfbec46  outputs/dynamics_trace.csv
+3a50fec403f58efd0f6e55d270440bcb88e68de86e7d35a094023311dfda133c  outputs/thermal_sanity.png
+[exit 0]
+
+$ /tmp/aiaa5034-hvac-wheel-test/bin/python -I /home/ubuntu/remote-workspaces/devbox/assignment/scripts/dynamics_sanity.py --output-dir /tmp/aiaa5034-hvac-replay
+/tmp/aiaa5034-hvac-replay/dynamics_trace.csv: 304 intervals
+[exit 0]
+
+$ cmp outputs/dynamics_trace.csv /tmp/aiaa5034-hvac-replay/dynamics_trace.csv
+[exit 0]

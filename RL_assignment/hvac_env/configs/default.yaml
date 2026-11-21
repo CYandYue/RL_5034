@@ -1,0 +1,38 @@
+# Zamani et al., synthetic 2R2C case, equation (19).
+thermal:
+  R_eo: 3.02     # degC/kW, envelope to outdoors
+  R_ie: 27.81    # degC/kW, indoors to envelope
+  C_e: 2.11      # kWh/degC, envelope
+  C_i: 1.11      # kWh/degC, indoors
+
+# Project assumptions for the ideal actuator, time grid and synthetic forcing.
+hvac:
+  q_heat_max_kw: 1.0
+  q_cool_max_kw: 1.0
+  cop_heat: 3.0
+  cop_cool: 3.0
+
+dt_h: 0.25
+episode_days: 7
+indoor_init_spread_c: 2.0
+
+weather:
+  phase_h: 9.0
+  delta_radius_c: 2.0
+  # Comfort bounds follow the office-case evaluation ranges in Manjavacas et al., section 5.2.
+  cold:       {mean_c: 5.0,  amplitude_c: 6.0, comfort_low_c: 20.0, comfort_high_c: 23.5}
+  hot:        {mean_c: 31.0, amplitude_c: 6.0, comfort_low_c: 23.0, comfort_high_c: 26.0}
+  transition: {mean_c: 19.0, amplitude_c: 8.0, comfort_low_c: 20.0, comfort_high_c: 23.5}
+
+gains:
+  base_kw: 0.05
+  occupied_kw: 0.15
+  occupied_start_h: 8.0
+  occupied_end_h: 18.0
+  daylight_peak_kw: 0.15
+  sunrise_h: 6.0
+  sunset_h: 18.0
+
+reward:
+  w_c: 1.0
+  w_e: 0.1

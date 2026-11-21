@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aiaa5034-hvac-env"
+version = "1.0.0"
+description = "Two-node building thermal dynamics with a Gymnasium interface"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10", "gymnasium>=1.0", "PyYAML>=6"]
+
+[project.optional-dependencies]
+validation = ["pytest>=7", "matplotlib>=3.7"]
+
+[tool.setuptools]
+packages = ["hvac_env"]
+
+[tool.setuptools.package-data]
+hvac_env = ["configs/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

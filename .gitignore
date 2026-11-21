@@ -1,0 +1,57 @@
+# macOS and editors
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Original archives stay local; extracted source is versioned.
+*.zip
+*.ZIP
+*.tar
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.tar.xz
+*.7z
+*.rar
+
+# Python environments, caches, and packaging
+.venv/
+.venv-*/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+.uv-cache/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Training artifacts. Keep configs, small summary CSVs, and report figures.
+runs/
+logs/
+checkpoints/
+models/
+wandb/
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.npz
+events.out.tfevents.*
+
+# Do not ignore all PDFs/PNGs/CSVs: course PDFs and the teammate's
+# small validation outputs are useful project materials.
