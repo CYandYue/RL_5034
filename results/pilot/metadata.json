@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "config": {
+    "name": "default",
+    "total_timesteps": 102400,
+    "eval_every": 20480,
+    "n_envs": 1,
+    "n_steps": 2048,
+    "batch_size": 64,
+    "n_epochs": 10,
+    "learning_rate": 0.0003,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "clip_range": 0.2,
+    "ent_coef": 0.0,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "net_arch": [
+      64,
+      64
+    ],
+    "torch_threads": 1,
+    "normalize_advantage": true,
+    "normalize_observations": true,
+    "normalize_rewards": false,
+    "clip_obs": 10.0,
+    "environment": {}
+  },
+  "seed": 0,
+  "fingerprint": "65992717ffd381d5bc8eab550f4c8409d0af28bec8d29936655e5c195b7e262b",
+  "training_source_hash": "120575debfe0e60ad32a4746c3d149bef907bfec5c96c765edb240a301e0f3a3",
+  "environment": {
+    "thermal": {
+      "R_eo": 3.02,
+      "R_ie": 27.81,
+      "C_e": 2.11,
+      "C_i": 1.11
+    },
+    "hvac": {
+      "q_heat_max_kw": 1.0,
+      "q_cool_max_kw": 1.0,
+      "cop_heat": 3.0,
+      "cop_cool": 3.0
+    },
+    "weather": {
+      "phase_h": 9.0,
+      "delta_radius_c": 2.0,
+      "cold": {
+        "mean_c": 5.0,
+        "amplitude_c": 6.0,
+        "comfort_low_c": 20.0,
+        "comfort_high_c": 23.5
+      },
+      "hot": {
+        "mean_c": 31.0,
+        "amplitude_c": 6.0,
+        "comfort_low_c": 23.0,
+        "comfort_high_c": 26.0
+      },
+      "transition": {
+        "mean_c": 19.0,
+        "amplitude_c": 8.0,
+        "comfort_low_c": 20.0,
+        "comfort_high_c": 23.5
+      }
+    },
+    "gains": {
+      "base_kw": 0.05,
+      "occupied_kw": 0.15,
+      "occupied_start_h": 8.0,
+      "occupied_end_h": 18.0,
+      "daylight_peak_kw": 0.15,
+      "sunrise_h": 6.0,
+      "sunset_h": 18.0
+    },
+    "reward": {
+      "w_c": 1.0,
+      "w_e": 0.1
+    },
+    "dt_h": 0.25,
+    "episode_days": 7,
+    "indoor_init_spread_c": 2.0
+  },
+  "git": {
+    "commit": "429372cb494aee495d8347118e2684c08003b53d",
+    "dirty": false
+  },
+  "started_utc": "2026-11-21T10:18:38.108405+00:00",
+  "python": "3.12.16",
+  "platform": "macOS-15.6.1-arm64-arm-64bit",
+  "device": "cpu",
+  "dependencies": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "gymnasium": "1.2.3",
+    "stable-baselines3": "2.7.0",
+    "torch": "2.8.0",
+    "PyYAML": "6.0.3"
+  },
+  "validation_sha256": "6ac2985c83c8a05141ffe999cce1940dd5c4db42d6080ef244876c9b5138795b",
+  "test_sha256": null,
+  "selection": "final checkpoint at the fixed interaction budget",
+  "reload_probes": [
+    {
+      "observation": [
+        19.812801361083984,
+        3.030226469039917,
+        1.207738995552063,
+        0.05000000074505806,
+        20.0,
+        23.5,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "action": [
+        0.9698278903961182
+      ]
+    },
+    {
+      "observation": [
+        20.054794311523438,
+        3.9389986991882324,
+        2.1889195442199707,
+        0.05000000074505806,
+        20.0,
+        23.5,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "action": [
+        0.9590206742286682
+      ]
+    },
+    {
+      "observation": [
+        22.270404815673828,
+        1.786184310913086,
+        -0.4382797181606293,
+        0.05000000074505806,
+        20.0,
+        23.5,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "action": [
+        0.6356698274612427
+      ]
+    }
+  ],
+  "completed_utc": "2026-11-21T10:19:07.565516+00:00",
+  "actual_timesteps": 102400,
+  "learning_wall_seconds": 29.011179166998772,
+  "periodic_validation_seconds": 4.4536743739954545,
+  "training_seconds_excluding_validation": 24.557504793003318,
+  "final_test_seconds": 0.0,
+  "final_validation": {
+    "timesteps": 102400,
+    "return_raw": -1.4963008197749796,
+    "cvr_pct": 0.05952380952380953,
+    "degree_hours": 0.00819841589477915,
+    "energy_kwh": 14.881024038801998
+  },
+  "parameter_count": 9987,
+  "artifacts": {
+    "model.zip": "34d2a7b39f673b7041f386ac4e57cfe6b29b2379d8e9e6ed176b504704a69dc9",
+    "normalizer.pkl": "1740baaecb2fddbab0a2407719039135d79b3a900aceef189ac5bd8fd5971fb8",
+    "validation_curve.csv": "69efd5cd0ce30a9f5a23046b8fb014f6b42bf895b7a241dbc22edbfa5de1ecf9",
+    "validation_episodes.csv": "4d09f03eb10e47b1c10186a4ddd7cb1596d585c4be14dd2a4e2b4027f79d0aaa",
+    "progress.csv": "92eb3b72f9aca42880ce9c4c02eb7fbcab97f58ec3fed1579eff5ca0fd7bb856"
+  }
+}
