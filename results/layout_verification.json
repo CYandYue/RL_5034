@@ -1,0 +1,25 @@
+{
+  "generated_utc": "2026-11-21T11:46:36.453574+00:00",
+  "status": "passed",
+  "formal_experiments_added": 0,
+  "unchanged_experiment_and_source_files": 356,
+  "training_source_hash": "120575debfe0e60ad32a4746c3d149bef907bfec5c96c765edb240a301e0f3a3",
+  "complete_runs_revalidated": 21,
+  "report_pages": 10,
+  "presentation_pages": 12,
+  "pdf_page_text_identical": true,
+  "modeling_explanation_text_identical": true,
+  "asset_copies_verified": 22,
+  "document_manifest_valid": true,
+  "tests": {
+    "passed": 86,
+    "failed": 0,
+    "warnings": 1,
+    "seconds": 2.27
+  },
+  "links": {
+    "files": 18,
+    "local_links": 126,
+    "broken_links": 0
+  }
+}

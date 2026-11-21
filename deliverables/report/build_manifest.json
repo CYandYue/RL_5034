@@ -1,12 +1,12 @@
 {
-  "generated_utc": "2026-11-21T11:22:45.922451+00:00",
+  "generated_utc": "2026-11-21T11:44:37.447251+00:00",
   "report": {
     "pages": 10,
-    "sha256": "42c01c0dee951adc997cb6b89c4a0fb2f10aa07ac456e6205130b70ed3f6acc6"
+    "sha256": "d5f2a10455d583303148332066933de3d4776d5d99c9b11505f43122acc2d2a2"
   },
   "slides": {
     "pages": 12,
-    "sha256": "9423c629061040fe96f6cfdb05f6560d24d25eef70eb70a91ba2d30cb33555b9"
+    "sha256": "0f95a48d86cc763b013529cf58af1ca58d923134d89c9d358211443d5b7af2fe"
   },
   "author_placeholder": true,
   "author_source_sha256": "8e7481297081088f5336c0d23f3a6ec6e2359eaa3b41eddeafd45a166478456d",
@@ -17,12 +17,12 @@
     "stability.csv": "83276e6cf7b7b30ef28037638cf34518d4f48de8f3b88a3f166d210d91394b60"
   },
   "source_sha256": {
-    "report/final_report.tex": "bdfa5524e571581bf1cefc45a00553286ef1a4707411c8767f6f745d8c69f862",
-    "presentation/slides.tex": "bdd113b1b7c8bc136383bcae8772d961265e53a942fd932aebf3c61ba16ea7a4",
-    "report/generated/macros.tex": "a184968d3bc77efa10d1d8efb107132458e521074dc921bfa07f5fbfb14244e3",
-    "report/generated/results_table.tex": "d7cd0444d05570aefd917b2dfbe28d5be413abfc17234df69a2de32cf93b7ed7",
-    "report/generated/slides_table.tex": "c4ceeee87c7c54e0d56218802eb659ae9b27988258676070cf9a8d5704084292",
-    "hvac_ppo/reporting.py": "5e3469f7605486a8e73e55307d8550c0211f29e12a13612b66db18d5704d56b5"
+    "deliverables/report/final_report.tex": "430330ff47a95b2f2ad12f2768f063429133b694fcf8bf4819fefd1c922308ca",
+    "deliverables/presentation/slides.tex": "da7584cd627f5cef73ef72bbaaccf2de56520b66006518923b5086deec87ac2c",
+    "deliverables/report/generated/macros.tex": "a184968d3bc77efa10d1d8efb107132458e521074dc921bfa07f5fbfb14244e3",
+    "deliverables/report/generated/results_table.tex": "d7cd0444d05570aefd917b2dfbe28d5be413abfc17234df69a2de32cf93b7ed7",
+    "deliverables/report/generated/slides_table.tex": "c4ceeee87c7c54e0d56218802eb659ae9b27988258676070cf9a8d5704084292",
+    "hvac_ppo/reporting.py": "1ea9a726081415f7b8e4bc27a65144ad48d4b8780a076b4a5caf5affb5d8fee0"
   },
   "figure_sha256": {
     "comfort_energy_tradeoff.pdf": "671c9e6636cf104acd1d969d5b94019611d1c25906de027dfff3ed79369bf6b9",

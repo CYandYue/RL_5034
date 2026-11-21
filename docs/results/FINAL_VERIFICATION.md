@@ -1,6 +1,6 @@
 # 最终验收记录
 
-日期：2026-11-21。机器：Apple M4 MacBook Air，16 GB 内存；Conda `ppo`、Python 3.12.16、CPU。机器可读记录见 [final_verification.json](../results/final_verification.json)，文档构建输入及输出校验值见 [build_manifest.json](../report/build_manifest.json)。
+日期：2026-11-21。机器：Apple M4 MacBook Air，16 GB 内存；Conda `ppo`、Python 3.12.16、CPU。机器可读记录见 [final_verification.json](../../results/final_verification.json)，文档构建输入及输出校验值见 [build_manifest.json](../../deliverables/report/build_manifest.json)。
 
 ## 实际完成
 
@@ -52,4 +52,12 @@ python -m hvac_ppo report
 
 `summarize` 需要本机保留的完整 `runs/ablation/`，并重新审核指纹及产物校验值；`report` 可仅使用已入库的小型结果文件重建，需要 TeX Live。训练模型、归一化统计和详细日志在本机保留，由 Git 忽略。当前 screen 会话已随批次成功完成而自动退出。
 
-姓名/学号按约定稍后填写到 `report/author.tex` 并重建。展示合练、最终课程上传和远程 push 由组员完成；本次未执行 push。
+姓名/学号按约定稍后填写到 `deliverables/report/author.tex` 并重建。展示合练、最终课程上传和远程 push 由组员完成；本次未执行 push。
+
+## 目录整理复核（2026-11-21）
+
+报告、展示与素材统一移动到 `deliverables/`；说明文档按 `docs/learning/`、`docs/experiments/` 和 `docs/results/` 分组。导航、相对链接、LaTeX 图片引用和生成器输出位置均已同步。原建模解释的正文保持原文，源码跳转改为可移植的相对链接。
+
+本次未新增正式实验。原有训练源码哈希、配置、21 次运行及结果数据保持一致；报告在新目录重新构建后仍为 10 页、展示仍为 12 页，逐页提取文本与整理前完全一致。86 项测试再次通过（2.27 秒），LaTeX 无溢出框或未定义引用。
+
+目录与链接复核的机器记录见 [layout_verification.json](../../results/layout_verification.json)。之后调整文件位置时，可在仓库根目录执行 `python scripts/check_links.py` 检查阅读材料和交付物中的本地跳转。

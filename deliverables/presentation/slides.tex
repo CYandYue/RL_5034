@@ -90,7 +90,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 
 \begin{frame}{Learning: avoid discomfort first, then refine control}
 \centering
-\includegraphics[width=.85\linewidth,height=.64\textheight,keepaspectratio]{../results/figures/slides_learning.pdf}
+\includegraphics[width=.85\linewidth,height=.64\textheight,keepaspectratio]{../../results/figures/slides_learning.pdf}
 \par\small Across-seed means; logarithmic cost axis. Full return curves and seed variability are in the report.
 \end{frame}
 
@@ -107,7 +107,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 
 \begin{frame}{Clip range: changing the policy-update objective}
 \centering
-\includegraphics[width=\linewidth]{../results/figures/slides_clip.pdf}
+\includegraphics[width=\linewidth]{../../results/figures/slides_clip.pdf}
 \begin{itemize}
 \item Smaller clipping discourages large favorable probability-ratio changes earlier.
 \item \SlideClip{}
@@ -116,7 +116,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 
 \begin{frame}{GAE lambda: changing the advantage estimate}
 \centering
-\includegraphics[width=\linewidth]{../results/figures/slides_lambda.pdf}
+\includegraphics[width=\linewidth]{../../results/figures/slides_lambda.pdf}
 \begin{itemize}
 \item Larger lambda uses longer reward fragments; value errors and variance matter.
 \item \SlideLambda{}
@@ -125,7 +125,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 
 \begin{frame}{Epochs: data reuse also changes computation}
 \centering
-\includegraphics[width=\linewidth]{../results/figures/slides_epochs.pdf}
+\includegraphics[width=\linewidth]{../../results/figures/slides_epochs.pdf}
 \begin{itemize}
 \item 5/10/20 epochs: 40k/80k/160k optimizer steps at the same sample budget.
 \item \SlideEpochs{}
@@ -134,7 +134,7 @@ Epochs & 5 & 10 & 20\\\bottomrule
 
 \begin{frame}{A preselected cold-weather trajectory}
 \centering
-\includegraphics[width=.82\linewidth,height=.73\textheight,keepaspectratio]{../results/figures/slides_cold_trace.pdf}
+\includegraphics[width=.82\linewidth,height=.73\textheight,keepaspectratio]{../../results/figures/slides_cold_trace.pdf}
 \par\small Condition \texttt{test\_cold\_00}; default PPO seed 0. Other scenes and executed actions are in the report.
 \end{frame}
 

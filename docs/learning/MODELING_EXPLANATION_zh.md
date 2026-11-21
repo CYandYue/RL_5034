@@ -2,7 +2,7 @@
 
 **这套环境的温度变化由固定的物理公式计算，PPO 学习的是“在什么情况下，该开多大的空调”。** 热阻、热容这些物理参数不会随着 PPO 训练而改变。
 
-先看控制器收到的 **11 维观测**。源码中的顺序定义在 [env.py](/Users/cy/phd_ws/RL_5034/RL_assignment/hvac_env/env.py:20)：
+先看控制器收到的 **11 维观测**。源码中的顺序定义在 [env.py](../../RL_assignment/hvac_env/env.py#L20)：
 
 | 索引 | 字段 | 含义及单位 | 控制器为什么需要它 |
 |---|---|---|---|
@@ -69,7 +69,7 @@ flowchart LR
 \text{温度变化速度}=\frac{\text{净输入热功率}}{C}
 \]
 
-当前默认参数见 [default.yaml](/Users/cy/phd_ws/RL_5034/RL_assignment/hvac_env/configs/default.yaml:2)：
+当前默认参数见 [default.yaml](../../RL_assignment/hvac_env/configs/default.yaml#L2)：
 
 | 参数 | 默认值 | 含义 |
 |---|---:|---|
@@ -86,7 +86,7 @@ flowchart LR
 
 这就是“温度变化具有惯性”的具体含义：空调输入先改变储热量，温度随着累积的热量逐渐改变。
 
-把这些关系组合起来，得到队友使用的两条方程，实现在 [thermal.py](/Users/cy/phd_ws/RL_5034/RL_assignment/hvac_env/thermal.py:27)：
+把这些关系组合起来，得到队友使用的两条方程，实现在 [thermal.py](../../RL_assignment/hvac_env/thermal.py#L27)：
 
 \[
 \boxed{
@@ -125,7 +125,7 @@ C_e\frac{dT_e}{dt}
 
 再看方程里的外部输入，它们也有明确的生成方法。
 
-**室外温度由日周期函数生成**，实现在 [weather.py](/Users/cy/phd_ws/RL_5034/RL_assignment/hvac_env/weather.py:68)：
+**室外温度由日周期函数生成**，实现在 [weather.py](../../RL_assignment/hvac_env/weather.py#L68)：
 
 \[
 T_o(h)=\mu+\delta+A\sin\left(\frac{2\pi(h-9)}{24}\right)

@@ -10,7 +10,7 @@
 \renewcommand{\arraystretch}{1.13}
 \input{author.tex}
 \input{generated/macros.tex}
-\newcommand{\fig}[3]{\begin{center}\includegraphics[width=#2\linewidth]{../results/figures/#1.pdf}\par{\small\textbf{Figure #3.} \csname Caption#1\endcsname}\end{center}}
+\newcommand{\fig}[3]{\begin{center}\includegraphics[width=#2\linewidth]{../../results/figures/#1.pdf}\par{\small\textbf{Figure #3.} \csname Caption#1\endcsname}\end{center}}
 \newcommand{\Captionlearningcurves}{Validation returns across training seeds. Shading denotes one sample standard deviation. The bottom row enlarges the period after 102,400 steps.}
 \begin{document}
 \begin{center}
@@ -179,7 +179,7 @@ Experiments run in the Conda environment \texttt{ppo} on an M4 MacBook Air with 
 
 \section*{6. Learning progress at a fixed sample budget}
 \begin{center}
-\includegraphics[width=\linewidth]{../results/figures/learning_curves.pdf}\par
+\includegraphics[width=\linewidth]{../../results/figures/learning_curves.pdf}\par
 {\small\textbf{Figure 1.} Validation return, mean and one sample standard deviation across three training seeds. Bottom panels show the period after 102,400 interactions. The validation set and evaluation rule are common to all runs.}
 \end{center}
 
@@ -201,7 +201,7 @@ The shaded bands quantify only variation among the three training seeds on the s
 \end{center}
 
 \begin{center}
-\includegraphics[width=0.85\linewidth]{../results/figures/comfort_energy_tradeoff.pdf}\par
+\includegraphics[width=0.85\linewidth]{../../results/figures/comfort_energy_tradeoff.pdf}\par
 {\small\textbf{Figure 2.} Final-test electricity and CVR. PPO error bars show across-training-seed standard deviations. HVAC off is omitted from this zoomed plot and remains in Table 1.}
 \end{center}
 
@@ -212,7 +212,7 @@ The weighted return can prefer a small increase in discomfort if it saves suffic
 
 \section*{8. Hyperparameter effects and update stability}
 \begin{center}
-\includegraphics[width=\linewidth]{../results/figures/update_diagnostics.pdf}\par
+\includegraphics[width=\linewidth]{../../results/figures/update_diagnostics.pdf}\par
 {\small\textbf{Figure 3.} Approximate KL and clipped-sample fraction. Curves are across-seed means with a five-update moving average; raw per-update data are retained. These diagnostics help characterize changes but do not independently prove stability.}
 \end{center}
 
@@ -229,7 +229,7 @@ The diagnostics and performance rankings need not agree perfectly. A small KL ca
 
 \section*{9. Representative closed-loop behavior}
 \begin{center}
-\includegraphics[width=\linewidth]{../results/figures/representative_trajectories.pdf}\par
+\includegraphics[width=\linewidth]{../../results/figures/representative_trajectories.pdf}\par
 {\small\textbf{Figure 4.} Preselected test condition 00 for each weather class. Default PPO uses training seed 0; the thermostat uses identical physical conditions. Rows show indoor temperature with the comfort band, outdoor forcing, executed action, and cumulative electricity. Initial points are plotted but excluded from interval metrics.}
 \end{center}
 

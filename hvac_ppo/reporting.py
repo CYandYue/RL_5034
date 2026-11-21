@@ -16,6 +16,10 @@ from pypdf import PdfReader
 from .analysis import FAMILIES, LABELS
 from .io import ROOT, file_hash, read_json, write_json
 
+REPORT_DIR = ROOT / "deliverables/report"
+PRESENTATION_DIR = ROOT / "deliverables/presentation"
+RESULT_DOCS_DIR = ROOT / "docs/results"
+
 
 def tex_escape(text):
     replacements = {"\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$",
@@ -115,7 +119,7 @@ def build_deliverables(results: Path):
         "SlideStability": f"Largest mean late-validation peak-to-final drop: {LABELS[worst_late]}, {stability.loc[worst_late].late_peak_to_final_drop:.2f} return units.",
         "SlideConclusion": f"Highest observed mean PPO return: {LABELS[best_name]} ({best.return_raw_mean:.3f}); this is a descriptive grid result.",
     })
-    report = ROOT / "report"
+    report = REPORT_DIR
     generated = report / "generated"
     generated.mkdir(exist_ok=True)
     macros = {"DefaultReturn": pm(default, "return_raw"), "DefaultCVR": pm(default, "cvr_pct"),
@@ -147,7 +151,7 @@ def build_deliverables(results: Path):
     build_chinese_guide(results, overall, thermostat, findings)
     build_speaker_notes(findings, default, thermostat)
     report_pdf = compile_pdf(report, "final_report.tex", "final_report.pdf", 10)
-    slides_pdf = compile_pdf(ROOT / "presentation", "slides.tex", "slides.pdf", 12)
+    slides_pdf = compile_pdf(PRESENTATION_DIR, "slides.tex", "slides.pdf", 12)
     manifest = {"generated_utc": datetime.now(timezone.utc).isoformat(), "report": report_pdf,
                 "slides": slides_pdf,
                 "author_placeholder": "to be supplied" in (report / "author.tex").read_text(),
@@ -155,7 +159,7 @@ def build_deliverables(results: Path):
                 "result_sha256": {name: file_hash(results / name) for name in
                                   ("summary.csv", "validation_curves.csv", "runtime.csv", "stability.csv")},
                 "source_sha256": {str(path.relative_to(ROOT)): file_hash(path) for path in
-                                  [report / "final_report.tex", ROOT / "presentation/slides.tex",
+                                  [report / "final_report.tex", PRESENTATION_DIR / "slides.tex",
                                    *sorted(generated.glob("*.tex")), ROOT / "hvac_ppo/reporting.py"]},
                 "figure_sha256": {path.name: file_hash(path) for path in sorted((results / "figures").glob("*.pdf"))}}
     write_json(report / "build_manifest.json", manifest)
@@ -197,8 +201,8 @@ def build_chinese_guide(results, overall, thermostat, findings):
     body = "\n".join(f"<p>{html.escape(text)}</p>" for text in paragraphs)
     document = f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PPO 实验结果解读</title><style>
 body{{margin:0;background:#f1f4ef;color:#253b31;font:17px/1.9 system-ui,"PingFang SC",sans-serif}}main{{max-width:1120px;margin:30px auto;padding:35px 45px;background:#fffefa}}h1,h2{{color:#20583f}}.table{{overflow:auto}}table{{border-collapse:collapse;min-width:850px;width:100%;font-size:14px}}th,td{{padding:10px;border-bottom:1px solid #dce4dd;text-align:left}}th{{background:#eef3ec}}figure{{margin:32px 0}}img{{max-width:100%;height:auto}}figcaption{{color:#65776a;font-size:14px}}a{{color:#216858}}@media(max-width:700px){{main{{margin:0;padding:24px 18px}}}}@media print{{body,main{{background:white;margin:0;padding:0}}figure{{break-inside:avoid}}}}
-</style></head><body><main><h1>PPO 温控实验：结果解读</h1>{body}<h2>最终测试指标</h2><div class="table">{table}</div><h2>图表</h2>{''.join(images)}<h2>交付与复现</h2><p><a href="../report/final_report.pdf">10 页英文报告</a> · <a href="../presentation/slides.pdf">12 页展示</a> · <a href="../presentation/speaker_notes.md">英文讲稿</a> · <a href="../presentation/QA_zh.md">中文问答准备</a> · <a href="../results/summary.csv">原始汇总表</a></p><p>完整代码、固定条件、锁定依赖与运行入口位于项目仓库。署名待三位组员补充。</p></main></body></html>'''
-    (ROOT / "docs/RESULTS_zh.html").write_text(document)
+</style></head><body><main><h1>PPO 温控实验：结果解读</h1>{body}<h2>最终测试指标</h2><div class="table">{table}</div><h2>图表</h2>{''.join(images)}<h2>交付与复现</h2><p><a href="../../deliverables/report/final_report.pdf">10 页英文报告</a> · <a href="../../deliverables/presentation/slides.pdf">12 页展示</a> · <a href="../../deliverables/presentation/speaker_notes.md">英文讲稿</a> · <a href="../../deliverables/presentation/QA_zh.md">中文问答准备</a> · <a href="../../results/summary.csv">原始汇总表</a></p><p>完整代码、固定条件、锁定依赖与运行入口位于项目仓库。署名待三位组员补充。</p></main></body></html>'''
+    (RESULT_DOCS_DIR / "RESULTS_zh.html").write_text(document)
 
 
 def build_speaker_notes(findings, default, thermostat):
@@ -218,7 +222,7 @@ def build_speaker_notes(findings, default, thermostat):
     ]
     text = "# English presentation notes\n\nTarget: about 12 minutes including pointing at figures and transitions. Suggested team split: slides 1–4, 5–8, 9–12. Rehearse against the actual PDF; timing is a guide.\n\n"
     text += "\n\n".join(f"## {title}\n\n{paragraph}" for title, paragraph in sections) + "\n"
-    (ROOT / "presentation/speaker_notes.md").write_text(text)
+    (PRESENTATION_DIR / "speaker_notes.md").write_text(text)
     qa = '''# 展示问答准备
 
 - **为什么用 PPO？** 题目指定研究 PPO 的三个参数；低维连续动作也适合使用其高斯策略。我们不宣称它是所有 HVAC 任务中最优算法。
@@ -239,6 +243,6 @@ def build_speaker_notes(findings, default, thermostat):
 - **为什么在 Mac 上做？** 两状态矩阵推进与约一万参数的网络计算较轻，本机实测可完成 21 次训练，无需 CUDA。
 - **实验如何复现？** 使用 Conda ppo、锁定依赖、固定配置/条件和种子，通过命令入口重跑；保存了相关代码哈希和产物校验值。跨平台不要求逐位相同。
 
-具体数值以 `results/summary.csv` 和最终报告为准，回答时不要把某个种子的曲线当成三种子结论。署名由三位组员补充到 `report/author.tex` 后，重新执行报告构建命令。
+具体数值以 `results/summary.csv` 和最终报告为准，回答时不要把某个种子的曲线当成三种子结论。署名由三位组员补充到 `deliverables/report/author.tex` 后，重新执行报告构建命令。
 '''
-    (ROOT / "presentation/QA_zh.md").write_text(qa)
+    (PRESENTATION_DIR / "QA_zh.md").write_text(qa)

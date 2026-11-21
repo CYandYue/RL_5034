@@ -64,7 +64,7 @@
   <article>
 <p>对。先把队友这套模型理解透，后面训练和解释结果都会容易很多。</p>
 <p><strong>这套环境的温度变化由固定的物理公式计算，PPO 学习的是“在什么情况下，该开多大的空调”。</strong> 热阻、热容这些物理参数不会随着 PPO 训练而改变。</p>
-<p>先看控制器收到的 <strong>11 维观测</strong>。源码中的顺序定义在 <a href="../RL_assignment/hvac_env/env.py" title="源代码，第 20 行">env.py</a>：</p>
+<p>先看控制器收到的 <strong>11 维观测</strong>。源码中的顺序定义在 <a href="../../RL_assignment/hvac_env/env.py" title="源代码，第 20 行">env.py</a>：</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
 <thead>
 <tr>
@@ -197,7 +197,7 @@
 <div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>储存的热量变化</mtext><mo>=</mo><mi>C</mi><mo>×</mo><mtext>温度变化</mtext></mrow><annotation encoding="application/x-tex">\text{储存的热量变化}=C\times\text{温度变化}</annotation></semantics></math></span></div>
 <p>所以，给定同样的净输入热功率：</p>
 <div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>温度变化速度</mtext><mo>=</mo><mfrac><mtext>净输入热功率</mtext><mi>C</mi></mfrac></mrow><annotation encoding="application/x-tex">\text{温度变化速度}=\frac{\text{净输入热功率}}{C}</annotation></semantics></math></span></div>
-<p>当前默认参数见 <a href="../RL_assignment/hvac_env/configs/default.yaml" title="源代码，第 2 行">default.yaml</a>：</p>
+<p>当前默认参数见 <a href="../../RL_assignment/hvac_env/configs/default.yaml" title="源代码，第 2 行">default.yaml</a>：</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>
 <thead>
 <tr>
@@ -232,7 +232,7 @@
 <p>例如，假设没有其他换热，给室内节点持续输入 1 kW、持续 1 小时，输入热量就是 1 kWh，室温将上升约：</p>
 <div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">Δ</mi><msub><mi>T</mi><mi>i</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>1.11</mn></mfrac><mo>≈</mo><msup><mn>0.90</mn><mo>∘</mo></msup><mi>C</mi></mrow><annotation encoding="application/x-tex">\Delta T_i=\frac{1}{1.11}\approx0.90^\circ C</annotation></semantics></math></span></div>
 <p>这就是“温度变化具有惯性”的具体含义：空调输入先改变储热量，温度随着累积的热量逐渐改变。</p>
-<p>把这些关系组合起来，得到队友使用的两条方程，实现在 <a href="../RL_assignment/hvac_env/thermal.py" title="源代码，第 27 行">thermal.py</a>：</p>
+<p>把这些关系组合起来，得到队友使用的两条方程，实现在 <a href="../../RL_assignment/hvac_env/thermal.py" title="源代码，第 27 行">thermal.py</a>：</p>
 <div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><menclose notation="box"><mstyle scriptlevel="0" displaystyle="false"><mstyle scriptlevel="0" displaystyle="false"><mstyle scriptlevel="0" displaystyle="true"><mrow><msub><mi>C</mi><mi>i</mi></msub><mfrac><mrow><mi>d</mi><msub><mi>T</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><munder><munder><mfrac><mrow><msub><mi>T</mi><mi>e</mi></msub><mo>−</mo><msub><mi>T</mi><mi>i</mi></msub></mrow><msub><mi>R</mi><mrow><mi>i</mi><mi>e</mi></mrow></msub></mfrac><mo stretchy="true">⏟</mo></munder><mtext>围护与室内换热</mtext></munder><mo>+</mo><munder><munder><msub><mi>Q</mi><mrow><mi mathvariant="normal">h</mi><mi mathvariant="normal">v</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi></mrow></msub><mo stretchy="true">⏟</mo></munder><mtext>空调供暖或制冷</mtext></munder><mo>+</mo><munder><munder><msub><mi>Q</mi><mi>g</mi></msub><mo stretchy="true">⏟</mo></munder><mtext>内部得热</mtext></munder></mrow></mstyle></mstyle></mstyle></menclose></mrow><annotation encoding="application/x-tex">\boxed{
 C_i\frac{dT_i}{dt}
 =
@@ -259,7 +259,7 @@ C_e\frac{dT_e}{dt}
 </ul>
 <p>因此，只看室温无法完整描述储热状态。队友把 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>e</mi></msub></mrow><annotation encoding="application/x-tex">T_e</annotation></semantics></math></span> 直接提供给控制器，是一种完整状态可观测的仿真假设；实际建筑中通常还需要估计这个等效温度。</p>
 <p>再看方程里的外部输入，它们也有明确的生成方法。</p>
-<p><strong>室外温度由日周期函数生成</strong>，实现在 <a href="../RL_assignment/hvac_env/weather.py" title="源代码，第 68 行">weather.py</a>：</p>
+<p><strong>室外温度由日周期函数生成</strong>，实现在 <a href="../../RL_assignment/hvac_env/weather.py" title="源代码，第 68 行">weather.py</a>：</p>
 <div class="equation"><span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>T</mi><mi>o</mi></msub><mo stretchy="false">(</mo><mi>h</mi><mo stretchy="false">)</mo><mo>=</mo><mi>μ</mi><mo>+</mo><mi>δ</mi><mo>+</mo><mi>A</mi><mi>sin</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mrow><mn>2</mn><mi>π</mi><mo stretchy="false">(</mo><mi>h</mi><mo>−</mo><mn>9</mn><mo stretchy="false">)</mo></mrow><mn>24</mn></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">T_o(h)=\mu+\delta+A\sin\left(\frac{2\pi(h-9)}{24}\right)</annotation></semantics></math></span></div>
 <p>其中，<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi></mrow><annotation encoding="application/x-tex">\mu</annotation></semantics></math></span> 是日均温基准，<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span> 是振幅，<span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi></mrow><annotation encoding="application/x-tex">\delta</annotation></semantics></math></span> 是每回合抽取一次的天气偏移，默认在 <span class="katex"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mo>−</mo><mn>2</mn><mo separator="true">,</mo><mn>2</mn><msup><mo stretchy="false">]</mo><mo>∘</mo></msup><mi>C</mi></mrow><annotation encoding="application/x-tex">[-2,2]^\circ C</annotation></semantics></math></span> 均匀采样。</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="数据表"><table>

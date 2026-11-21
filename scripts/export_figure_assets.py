@@ -28,7 +28,7 @@ FIGURES = (
 
 def export_assets():
     source = ROOT / "results/figures"
-    output = ROOT / "figure_assets"
+    output = ROOT / "deliverables/figure_assets"
     missing = [str(source / f"{name}.{extension}") for name, *_ in FIGURES
                for extension in ("png", "pdf") if not (source / f"{name}.{extension}").is_file()]
     if missing:
@@ -55,7 +55,7 @@ def export_assets():
 <code>{name}</code></article>''')
     readme = '''# 绘图素材：供修改 PPT / 报告使用
 
-直接打开 **[index.html](index.html)** 预览全部图，再选择需要的格式。可以把整个 `figure_assets/` 文件夹复制给组员，离线预览不依赖 Python、网络或训练模型。
+直接打开 **[index.html](index.html)** 预览全部图，再选择需要的格式。可以把整个 `deliverables/figure_assets/` 文件夹复制给组员，离线预览不依赖 Python、网络或训练模型。
 
 - `png/`：11 张 PNG，最适合直接插入 PowerPoint、Keynote、WPS。优先使用 `slides_*`，文字和布局已经按展示场景调整。
 - `pdf/`：对应的 11 张矢量 PDF，适合 LaTeX、打印和支持 PDF 的排版软件；放大更清晰。需要改变曲线、字体或误差条时，应从数据重新绘图。

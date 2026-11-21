@@ -1,6 +1,6 @@
 # 题目 16：从现有热模型到完整 PPO 实验
 
-本说明依据 `materials/` 中两份课程 PDF 和队友交付源码编写，保留 2026-11-21 开始实施前的解释和建议。当前训练工具及正式实验已按 [冻结协议](EXPERIMENT_PROTOCOL.md) 实施；实际入口见 [运行说明](RUNNING_EXPERIMENTS.md)，进度见 [TODO](../TODO.md)，最终结果见 [中文 HTML](RESULTS_zh.html)。下文“尚未实现”和待办描述的是最初交接时点。
+本说明依据 `materials/` 中两份课程 PDF 和队友交付源码编写，保留 2026-11-21 开始实施前的解释和建议。当前训练工具及正式实验已按 [冻结协议](../experiments/EXPERIMENT_PROTOCOL.md) 实施；实际入口见 [运行说明](../experiments/RUNNING_EXPERIMENTS.md)，进度见 [TODO](../../TODO.md)，最终结果见 [中文 HTML](../results/RESULTS_zh.html)。下文“尚未实现”和待办描述的是最初交接时点。
 
 ## 1. 课程真正要求交什么
 
@@ -96,7 +96,7 @@ env.close()
 
 ### 4.1 热模型：两个动态温度状态
 
-源码：[`thermal.py`](../RL_assignment/hvac_env/thermal.py)。
+源码：[`thermal.py`](../../RL_assignment/hvac_env/thermal.py)。
 
 ```text
 室外温度 To ── 热阻 Reo ── 围护温度 Te、热容 Ce
@@ -121,7 +121,7 @@ Ce × dTe/dt = (To - Te) / Reo + (Ti - Te) / Rie
 
 ### 4.2 空调动作与电量
 
-源码：[`hvac.py`](../RL_assignment/hvac_env/hvac.py)。
+源码：[`hvac.py`](../../RL_assignment/hvac_env/hvac.py)。
 
 - `u > 0` 供暖，`u < 0` 制冷，`u = 0` 关闭；默认两个方向最大热功率均为 1 kW。
 - `u=-0.5` 表示净热功率为 −0.5 kW，不是目标温度设为 −0.5 °C。
@@ -132,7 +132,7 @@ Ce × dTe/dt = (To - Te) / Reo + (Ti - Te) / Rie
 
 ### 4.3 天气与观测
 
-源码：[`weather.py`](../RL_assignment/hvac_env/weather.py)、[`env.py`](../RL_assignment/hvac_env/env.py)。
+源码：[`weather.py`](../../RL_assignment/hvac_env/weather.py)、[`env.py`](../../RL_assignment/hvac_env/env.py)。
 
 天气由日周期函数生成；每回合抽取冷、热、过渡场景之一，再抽取整段天气的温度偏移。内部得热包含基础、办公时段和日间三部分。
 
@@ -142,7 +142,7 @@ Ce × dTe/dt = (To - Te) / Reo + (Ti - Te) / Rie
 
 ### 4.4 奖励与独立评价指标
 
-源码：[`env.py`](../RL_assignment/hvac_env/env.py)、[`comfort.py`](../RL_assignment/hvac_env/comfort.py)。
+源码：[`env.py`](../../RL_assignment/hvac_env/env.py)、[`comfort.py`](../../RL_assignment/hvac_env/comfort.py)。
 
 以步后室温计算越界距离 `d = max(0, low - Ti, Ti - high)`。默认奖励按当前单位的数值计算：
 
@@ -251,8 +251,8 @@ env.close()
 
 归档 SHA-256：`60bd496937998c313d5e9c215988b70516e673dab7143c06a616ba7c730e440b`。
 
-- [队友 README](../RL_assignment/README.md)：安装与交接概览。
-- [模型依据](../RL_assignment/docs/MODEL_RATIONALE_zh.md)：方程、参数、假设与适用范围。
-- [接口交接](../RL_assignment/docs/INTERFACE_HANDOFF_zh.md)：观测顺序、时刻、配置与指标字段。
-- [验证报告](../RL_assignment/reports/V1_ENV_VALIDATION_zh.md)：队友实际运行的验证记录。
-- [参考文献](../RL_assignment/docs/REFERENCES.md)：模型和舒适区间的出处。
+- [队友 README](../../RL_assignment/README.md)：安装与交接概览。
+- [模型依据](../../RL_assignment/docs/MODEL_RATIONALE_zh.md)：方程、参数、假设与适用范围。
+- [接口交接](../../RL_assignment/docs/INTERFACE_HANDOFF_zh.md)：观测顺序、时刻、配置与指标字段。
+- [验证报告](../../RL_assignment/reports/V1_ENV_VALIDATION_zh.md)：队友实际运行的验证记录。
+- [参考文献](../../RL_assignment/docs/REFERENCES.md)：模型和舒适区间的出处。

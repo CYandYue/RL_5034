@@ -78,4 +78,6 @@ python -m hvac_ppo report
 
 生成器从真实结果表生成数字、比较段落和表格，再调用 `pdflatex`，检查报告恰为 10 页、展示恰为 12 页，并检查无空白页。图表链接到可复现的 PDF/PNG，另输出中文离线 HTML 结果解读、英文讲稿和中文问答。构建清单记录结果文件与最终 PDF 的 SHA-256。
 
-三位成员的姓名和学号只需填入 `report/author.tex` 后重新构建。构建报告需要 TeX Live（包含常见 LaTeX 和 Beamer 包）；运行环境与 PPO 实验本身不依赖 TeX。
+三位成员的姓名和学号只需填入 `deliverables/report/author.tex` 后重新构建。构建报告需要 TeX Live（包含常见 LaTeX 和 Beamer 包）；运行环境与 PPO 实验本身不依赖 TeX。
+
+报告和展示分别生成到 `deliverables/report/` 与 `deliverables/presentation/`；中文结果生成到 `docs/results/RESULTS_zh.html`。修改 PPT 需要的图可从 [图素材预览](../../deliverables/figure_assets/index.html) 选择。重新绘图后，执行 `python scripts/export_figure_assets.py` 同步素材。

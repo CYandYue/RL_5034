@@ -18,6 +18,7 @@ These files come from the frozen seven-configuration, three-seed protocol. Each 
 | `run_manifest.json` | Training-source hash, per-run fingerprints, Git provenance and artifact checksums. |
 | `facts.json` | Machine-readable means used for interpretation. |
 | `condition_coverage.csv` | Actual offset/initial-temperature coverage by weather and split. The small validation realization has only negative offsets in hot and transition weather; validation rankings need not match final-test rankings. |
+| `final_verification.json`, `layout_verification.json` | Original experiment acceptance checks and the later directory-reorganization audit, including preserved data/model hashes, rebuilt document content and local links. |
 | `default_seed0_traces.csv`, `baselines/*_traces.csv` | Preselected condition 00 for each weather class; initial point plus 672 completed intervals. |
 | `pilot/` | Default validation-only pilot used to establish the formal budget before final tests. |
 
@@ -29,7 +30,7 @@ Thirty test episodes are repeated conditions for one learned model, not thirty i
 
 `figures/` contains both vector PDF and PNG versions of the learning curves, physical metrics, comfort–energy tradeoff, update diagnostics, runtime, and preselected trajectories. The `slides_*` figures use the same data with layouts for presentation. Learning bands show across-seed SD; update-diagnostic lines are seed means followed by a five-update moving average.
 
-For editing presentations, use the portable [figure asset folder and offline gallery](../figure_assets/index.html). It contains verified PNG/PDF copies and a Chinese chart guide. Refresh it after regenerating figures with `python scripts/export_figure_assets.py`; the report continues to use `results/figures/`.
+For editing presentations, use the portable [figure asset folder and offline gallery](../deliverables/figure_assets/index.html). It contains verified PNG/PDF copies and a Chinese chart guide. Refresh it after regenerating figures with `python scripts/export_figure_assets.py`; the report continues to use `results/figures/`.
 
 With complete local models and logs present:
 
@@ -44,4 +45,4 @@ The summarizer verifies all run fingerprints and saved-artifact hashes before ac
 python -m hvac_ppo report
 ```
 
-This document build requires `pdflatex` and common TeX Live packages; PPO training itself does not. See [the Chinese results guide](../docs/RESULTS_zh.html) and [the complete protocol](../docs/EXPERIMENT_PROTOCOL.md).
+This document build requires `pdflatex` and common TeX Live packages; PPO training itself does not. See [the Chinese results guide](../docs/results/RESULTS_zh.html) and [the complete protocol](../docs/experiments/EXPERIMENT_PROTOCOL.md).
