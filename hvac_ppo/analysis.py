@@ -94,6 +94,17 @@ def summarize(runs: Path, rules: Path, output: Path):
     if len(environment_hashes) != 1 or len(source_hashes) != 1:
         raise ValueError("runs do not share the same environment and training implementation")
     output.mkdir(parents=True, exist_ok=True)
+    coverage = []
+    for split, path in (("validation", validation_path), ("test", test_path)):
+        cases = pd.DataFrame([vars(case) for case in load_cases(path)])
+        for scene, table in cases.groupby("scenario"):
+            coverage.append({"split": split, "scenario": scene, "conditions": len(table),
+                             "weather_delta_min_c": table.weather_delta_c.min(),
+                             "weather_delta_max_c": table.weather_delta_c.max(),
+                             "positive_weather_offsets": int((table.weather_delta_c > 0).sum()),
+                             "indoor_init_min_c": table.indoor_init_c.min(),
+                             "indoor_init_max_c": table.indoor_init_c.max()})
+    pd.DataFrame(coverage).to_csv(output / "condition_coverage.csv", index=False)
     figures = output / "figures"
     figures.mkdir(exist_ok=True)
     all_episodes = pd.concat(episodes, ignore_index=True)

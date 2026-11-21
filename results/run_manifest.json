@@ -1,0 +1,390 @@
+{
+  "schema_version": 1,
+  "runs": [
+    {
+      "configuration": "default",
+      "seed": 0,
+      "fingerprint": "c4361ff426020dcd6aa13f95059b49727b00545eba640e9311db130a8e3ec2a5",
+      "git": {
+        "commit": "c6ff2aae1962f26acce7b4ee33670c7fa57087ba",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "121821a8e7ac5bf37edb53ab1fcf34e3d2ea40e7c549b1b9faa32409dc7918cf",
+        "normalizer.pkl": "31999d3140d7970192eb841d0ae155e7a36405bd1b8c48d5f099435995459bbe",
+        "validation_curve.csv": "c5a32616ee40bc59737f68b8d338884716adc2c50db7e4c85aebf1a2b2d366d1",
+        "validation_episodes.csv": "2331fcad5982d67614f8b2409fda5b477b09f2af1650dcd8be6e35495c2b1b37",
+        "progress.csv": "c10186e4687dc22860fcb5bce82654e86ac247aa6a486cac2850411a0860131a",
+        "test_episodes.csv": "d963599e89bf9993c22258d94f19d08afdc14be94990e53d615ec5576a3741be",
+        "test_traces.csv": "f61151f1229a0c6a20ddde416ca12bab69c659ebb93efb034819fdfb753a90cd"
+      }
+    },
+    {
+      "configuration": "default",
+      "seed": 1,
+      "fingerprint": "78289c32ee26cf1e188b642c4ddd9164c524458b7674ee83f1897fb88182e47b",
+      "git": {
+        "commit": "c6ff2aae1962f26acce7b4ee33670c7fa57087ba",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "ab740d58df9c28d85891b28552a742f9446cf05604568030cdf42bca1a7b243f",
+        "normalizer.pkl": "b61cebe4c17ad53c6998f0fb4c63d628e52f4966345ab199fd2c9ce26fb11da8",
+        "validation_curve.csv": "2a06bc40ee3344f60a0502d9b4664023540ff0c6a621820be32b206154554865",
+        "validation_episodes.csv": "06dd2d52715030461ec44254ac037725d3b655d5705003a99479385068069690",
+        "progress.csv": "daa9660ca72fe2ac54c549012dccf6ab731ca36579c746800e06234f2134a152",
+        "test_episodes.csv": "787b0cfe139dbe9efa57d0b6825ce361bd6656a228c809d5e0194e3a256ba555",
+        "test_traces.csv": "cca7da54a4f256800fe3054ef6319077e52ec8084287dc72d86609e86e237e59"
+      }
+    },
+    {
+      "configuration": "default",
+      "seed": 2,
+      "fingerprint": "0ed99b716dcae4bb280ed5cc305b3a79a2b486616ddacbcee07323312adec750",
+      "git": {
+        "commit": "c6ff2aae1962f26acce7b4ee33670c7fa57087ba",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "99ca1be273811bd58fa66d2b03e72d1b88c22a34d5ee875f8e7754e87680bb78",
+        "normalizer.pkl": "6465c277eb0fe7f352bf3a9f89b656d4a80dbf7d7697cff01108b9c5fcdaeba0",
+        "validation_curve.csv": "e691d7c0cd81934f0993855c49eb7d395fe95572c9c2f5042dfa09aa8a2d8698",
+        "validation_episodes.csv": "0ef8852e9e7ffbb676a164e659c98b29213f6684f6ae79d9878a2c5394e16c86",
+        "progress.csv": "6e6ddba7bc3d105738b67620be70e02dbe36593e084f3e8b8e5dc1dbd5b79f4b",
+        "test_episodes.csv": "921806d082e944b5d6deaf9d5e9dfb2274323bce77c0baef270bcdc477796f8b",
+        "test_traces.csv": "3b629ec9511b3abfc046139894902e18cdcfbe5f6e8e271dedff83ae3b5687d7"
+      }
+    },
+    {
+      "configuration": "clip_010",
+      "seed": 0,
+      "fingerprint": "01ebde4939c59d52c706d4b8199effc4498fdcffb1237bca814d33a5a5fb71d0",
+      "git": {
+        "commit": "c6ff2aae1962f26acce7b4ee33670c7fa57087ba",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "8be2502be7ab5f8b2dc5f368d20fe2f728e3fcec398c9677605b0dde113396fe",
+        "normalizer.pkl": "0c024afe452ec1bf1a1be07335964d0c46480006ae130801f260737ed3b1c3f0",
+        "validation_curve.csv": "fa60d39963357e4f73a06e55a5202edc10894fec831df3cb886b5aa7ece0057b",
+        "validation_episodes.csv": "8f6f5665b8db147e89bb291fec5cefc4c993507940b853bcafd0180b95f45d31",
+        "progress.csv": "1c6490e0305cfab6a2fd1219b39adc2179acd1e22130c75aca52c2ab879962ad",
+        "test_episodes.csv": "13476e86e4c5d9fde8a5689dfeb927030194dad9b7f1b74d25d85c0c03007640",
+        "test_traces.csv": "17af095e1701c90b0f2ccc5932598244bd5442413d04323f1c37d599b6015cec"
+      }
+    },
+    {
+      "configuration": "clip_010",
+      "seed": 1,
+      "fingerprint": "5d0d10a03aef9df218513d1d2fb3e6b9ba74159570008447f41a8b356f3572e7",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "1328211efbfa31b31141f2dd4fd9c71b66e7eb3128f81c0481ab92f174c4dedf",
+        "normalizer.pkl": "f733f9f7d902524e6f80771a6a1df2916c92a0187ca9af1171ea3ed237b7cdb4",
+        "validation_curve.csv": "5adeb570f970f368cad32886317f9efb756a3568d1fa2ceb7074408d39c63516",
+        "validation_episodes.csv": "7b98ca3c925d9f9cd1bc2aa226556d25a5eec22d1b8553fc396a2b418813e1d8",
+        "progress.csv": "1a89e4bac445b543778483fdf50cb65e58657847306e4e6fb97f81c2e0035874",
+        "test_episodes.csv": "ecf74bed455c777974e8dbf5e05eaa78de3fa147bb6d10a064a0cb5b7acc9183",
+        "test_traces.csv": "950601fbff9292af731a7ef5a0ea0370df209eec12cd434d229653a474dc5630"
+      }
+    },
+    {
+      "configuration": "clip_010",
+      "seed": 2,
+      "fingerprint": "620dead0cccfe0c1c8ba3700380e16a705e8efae2b5f4d2be5387b03e8e86b83",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "cab0752664f56ebe566ddecf78c5140afc182416ade1ca77652bd6db871c2de6",
+        "normalizer.pkl": "2b9d99b399a108c2ed60b546c92a97940fa86e77e63e2ea6707850832bf843d6",
+        "validation_curve.csv": "806887a3877cf47c95ef2978516e1854c7ae66996e6f01131c2401320548fe1f",
+        "validation_episodes.csv": "ff22a822c169759a3d553e15f0d89807faa9e6bd4aa21beff12ac419832816a7",
+        "progress.csv": "5949897c1d6fb2c3015dd7d2b7c61c3b7c77a38594c20ed59b5525d953284705",
+        "test_episodes.csv": "2d5fda67918ff1b8959e39cd784f2cd412231961caa86800cde48779f6dadf36",
+        "test_traces.csv": "530dabbb16140fdefe8844b239492e685a0fb0f789dd6889dd36d5e11f5116b2"
+      }
+    },
+    {
+      "configuration": "clip_030",
+      "seed": 0,
+      "fingerprint": "fc0f3cdc000b4f6f9b566ec9b60a9358c79e10fb6aa12ba4b938f5b6cb6187f2",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "d2a134d28b9d9cef9acfc4704967a4e6561ac7e76451e179c2c1093a01579193",
+        "normalizer.pkl": "fedef0182272abffdc8b85a1c997c6a2ff8243012a8084a4dfc51e8961d342fd",
+        "validation_curve.csv": "88b2800a9c4f6eddd963be9d14b61eee61bae9b24935b10a0cf2cb257d247e38",
+        "validation_episodes.csv": "a3537540fdeba8f05c049b73a395f59c3e36a34fe4393a832ffc5a99efbdf2b5",
+        "progress.csv": "4449e1c30f5999a19da4d365de652ba4d22e63e8154d037cc448f242f286d2ac",
+        "test_episodes.csv": "9b1a27e965e88c978be4f977e887b85ac2279bef758a79b8dadb222d41d460f7",
+        "test_traces.csv": "badfc8383adadf33b008b6a7883a8671719341031c1d8978a017aa5025ee7403"
+      }
+    },
+    {
+      "configuration": "clip_030",
+      "seed": 1,
+      "fingerprint": "487284cabe458b3aaa5f59bbe00233c020d7f3b4034d86150361f92e2f42e167",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "19a9e56795bfb5f5640d579c020b0a746c26de4be3942242ab2a4a63a3905d7e",
+        "normalizer.pkl": "3a6c6d16298bed0ed1fce2737e85ce230fb4d455c50edd6d3b0919d2d15ec48f",
+        "validation_curve.csv": "7cf9a5291131c72100e0f5fbaa3b3eb2b28285b223fc71092a4c2eb6a949f4b5",
+        "validation_episodes.csv": "a1fef0d2532cd497793b1aba44c19d47547d7dd7236780d933618270869d5654",
+        "progress.csv": "ae25afc6b5fbe2cf2d2e331f5bfc177e89cfda6fa0eb071d184b47666239b730",
+        "test_episodes.csv": "537c61a0ebab48ba34809dda52c497366ab35b73f31a319577803a5974b6dae3",
+        "test_traces.csv": "b12b69a3b05f0a67ccd40a633159c85226ae0a4312e72a7b2166162cb6dd61d6"
+      }
+    },
+    {
+      "configuration": "clip_030",
+      "seed": 2,
+      "fingerprint": "20d11693e9e9d320224a67541bc817039c7117a1724128e54af491e6ab16c320",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "c3c8386d423fedb84adb62ddc2bab8a607a18fffdb4bd04b1c0fc1afc1142835",
+        "normalizer.pkl": "0470322803e914d60d376551c567edb272cef80bae2649dde9b64d0a0b899415",
+        "validation_curve.csv": "c11b47c1de900b686084140cdb757310e4b35ffcbd54d2d3b8ca7641005b290d",
+        "validation_episodes.csv": "588e2bea1d4c9d150f7c783b9dd0ddedeb2c9facc22e4b9a1f713529260fad6b",
+        "progress.csv": "c556d4133197e3b60f5109cd2621b39fc7e2f5c3ebe75d0ad3ec1182b8750027",
+        "test_episodes.csv": "0e859d0d46fb4df0f352237fe0a5d8bac2908ec27783e0f2de38a6b4fb5bee94",
+        "test_traces.csv": "cbca5748b77467b9dc37c80ffb94bb1cd927fec0792400ba88fd85573247065d"
+      }
+    },
+    {
+      "configuration": "lambda_090",
+      "seed": 0,
+      "fingerprint": "3c334d7f4c332173292794b8758bf647f995de49325b496583473d77af5d1980",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "d1f1e83822b88c2102fa7435110c2ec73ab78c822609eb02e0b81f0196ec8f21",
+        "normalizer.pkl": "ed70fe68ffce385a00371a4124336b45231d230b1a2c2601f17b2d8acaf5a030",
+        "validation_curve.csv": "4e9a6114eaed150b5f1c8be3ee9b1658a0d5d237d6729e0ada438b7f001f3343",
+        "validation_episodes.csv": "5e90fc996f4d4add4e3d2f4455e1711fa0e57a6a83c88bbf56ab4d13ca261d16",
+        "progress.csv": "4dade0ddf8bc79aa5a727275ebb50504e92c26b3eddb4582038c8a0f61efc7b4",
+        "test_episodes.csv": "ee5d4bc869f5c48c77cc22f137004a57c1854c500484c1060bf6ddc934433ba8",
+        "test_traces.csv": "fcb25039d6531579f7b5557ff91694936f8a6df8501cde36ce4dfde7e0a8b95f"
+      }
+    },
+    {
+      "configuration": "lambda_090",
+      "seed": 1,
+      "fingerprint": "3db30fe5dbdaf044487aaeffb3ea0a394f1b137e662ad89d44dfaae68f4d2762",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "1a7a28aa20c6e59f7dcb2418413f2b9136a79b1f6d021aed731d64e4ffc4b3ca",
+        "normalizer.pkl": "81369384e48e2ae63e8393bec1ed5c08220e34366a4022b704c848d3e2c3f95f",
+        "validation_curve.csv": "36f52c8c92f2b486b7260c261d9a4d2aa0cb0a9871c0510949fe606eb43c9665",
+        "validation_episodes.csv": "6c0978ee39e93d4be82571db77aa71fc2e4f7e3ec0dc138011a65a8c4266b024",
+        "progress.csv": "6febcd03bf601f1328f08d804e59699fa6e1624a2874354c66b7894a24e8af47",
+        "test_episodes.csv": "77f077617da73dfaaa95c0bd666a51c35fb7beed3c60ed6842b685d70296b016",
+        "test_traces.csv": "35244eb122288c5744b95ee508de87bd97a2bd0ed19b216e9879af22ca40e7d4"
+      }
+    },
+    {
+      "configuration": "lambda_090",
+      "seed": 2,
+      "fingerprint": "8023af193eb38d1da921176836f2c7444ad6509abe32633b9034d52c81a28ce3",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "8d9503386dc2ec97f82af3ae433fb528614acfa9a4905e22380c95e125fd5b9c",
+        "normalizer.pkl": "467db66acb4483e04111acb6c8bd354999efde5159ee2f9af9b5e0280c7b84ac",
+        "validation_curve.csv": "19a0992d05287bb4da29c0310fa147467651431a86fc28f35fa2151b7f3c2b1d",
+        "validation_episodes.csv": "90094cf573b084f5614fe67bc7dda61079633879d713f553b624371aceda07d0",
+        "progress.csv": "a4b6b5a57790e94fe63ed7d0f23ecaaa17c275f3f56b5e2e20ea916ae5ec4e88",
+        "test_episodes.csv": "47b5ad512de4ce865eccc58bd79de20c71e65e66fc72986aa7f53d5c394c9dfc",
+        "test_traces.csv": "0a6569548c465bc6ad9f2470dcefcdb46e6c49322899369ad0299ef5a04b5ce6"
+      }
+    },
+    {
+      "configuration": "lambda_099",
+      "seed": 0,
+      "fingerprint": "99ad683b72162a9bf0790617ae6015e227eb51fc2295e558de83f8add074a015",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "81b154ad45c2385aedbb5d4d4bacccc005f28cc75d09e277ce7d20f052c62230",
+        "normalizer.pkl": "02c6395300e9655629ad6eb657006677ea2a9269795653ad5595043c3fb3c0ea",
+        "validation_curve.csv": "40f24f641993b88cafaa2776bc4fa5061bc88ce5e815d4cb3012487cac025ea8",
+        "validation_episodes.csv": "e8fd759627f24527be28a5b9aab47c007a453239e87e71d3f19aac28d7481cc5",
+        "progress.csv": "7cb99d45cf7a353fb84a910a5d7e1bb39d4dbea4e77c8e8d017c449e56add394",
+        "test_episodes.csv": "efbde76ff2aa19dcbbfb6c29f07bc1c356f003c52fe5279193de69c3839f7e2a",
+        "test_traces.csv": "3362113c7b7b3725b091f6e150941252a703b85e992591151c3b293a74fb07f6"
+      }
+    },
+    {
+      "configuration": "lambda_099",
+      "seed": 1,
+      "fingerprint": "1c0d7046eb040716f6e8913078d4c96f921b7981c859fc10977c87511d1fff77",
+      "git": {
+        "commit": "f0e240e4e902d7b844c57140c4cbbee8c666fb7d",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "f5ed3ec9393f433af8da6b959b69de40c025368504300fa5a22b53a2891d6b6f",
+        "normalizer.pkl": "5a04940a68ace3032af48753460db16df25ebd8bfcef5159843f7059cff090fd",
+        "validation_curve.csv": "acd2a395681d5c039c2921bd035e4668e05f7357332842d5c73db5d4112b1665",
+        "validation_episodes.csv": "c335684d3c06f2dff6e803d8f5a2a817ad56d5200c5fe403ccabcad32fc3dd43",
+        "progress.csv": "4dd7679d1b0fb0e8f7ac3eb47c4c34a77158a0e961b2209d48427e8350de1917",
+        "test_episodes.csv": "35f8d15dc26787cd9f3dd24ba4e8fbe5c3342a81af2b626a8533a5be57a7c89a",
+        "test_traces.csv": "0d04511d8f92b33b2aa755ff33de48ed63f5ff09e4751f6dc18bb911fde0154d"
+      }
+    },
+    {
+      "configuration": "lambda_099",
+      "seed": 2,
+      "fingerprint": "6ea77c47deafe1e766bee4c6e1064724ddc12a715e71e1a7805b6b033ca46543",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "7f05ad9f99b26524c5ee676e6ea52675fcc7af7cfdcf2f449644cee337ee6684",
+        "normalizer.pkl": "1e935ba2ca4230cc8dbc6c7089637335aab13a2b7dd2f9d31a20f3c90918586f",
+        "validation_curve.csv": "f3af64c4f3a46cbdfcb4b8e902548ee5bda33659009f4eddc7b2c68407045a1c",
+        "validation_episodes.csv": "0354a8c3d56e6ed7f664e760a123d1b94ea2524c9a757296eeb3a00787182a34",
+        "progress.csv": "b200d7b8149e31268b70a153394cba72650acebfcdee8a4b0083f86b06b7c47c",
+        "test_episodes.csv": "1d5f747fa47382996f71694e06de410a057d81d135f5837f5272b4f8dd1598b0",
+        "test_traces.csv": "f8d994e54627141a8f4c99cafedecbbaed2f39d8031f1a1836f48b7809835a0c"
+      }
+    },
+    {
+      "configuration": "epochs_05",
+      "seed": 0,
+      "fingerprint": "1bb0e25c0148ad0d2aae34636d2f0338518c8d1108fac746b2f0640da44b3021",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "2054cde0522fc6b38967a86497ba287bdc757e791be4f96289198d27314d98f3",
+        "normalizer.pkl": "08c804281e943bbfb7a0e1356c5f12a43c3033ea55d6a2ed0821f1acb54bae77",
+        "validation_curve.csv": "82698e32a70381f2ddc317e32045d47aebc57c6187a3f62a13198dca0a18d2eb",
+        "validation_episodes.csv": "5230d4c5c77094d36060e9fbe47c5ee2a33e3fe159687a038609bd48cedf51e3",
+        "progress.csv": "778dd9263a18baa56698394743d6a5a68ef099b63e15af3c469737777c81ed1b",
+        "test_episodes.csv": "7797cd1d7e8be772360bd0ca2170f31e05a016a675685c1f675707b38edcce7c",
+        "test_traces.csv": "7fae7ab4aeea70069303a02ea224e41c4e67a25c62e20d868cdd7776da614d17"
+      }
+    },
+    {
+      "configuration": "epochs_05",
+      "seed": 1,
+      "fingerprint": "a14674b167c62424ebdf141e3171eb61393531cd8a571da75299614afe357b48",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": false
+      },
+      "artifacts": {
+        "model.zip": "70fc7b9e64f6a2e4e9d796ce2cf4c1862421af996f57f818c2077124cf37c747",
+        "normalizer.pkl": "c799bee3eb349febfeafc7415236c4b3aae6c61d41335e9758d40313d6cc28ed",
+        "validation_curve.csv": "9ddbd5df193a61b62c52f8636be63917c3b977425238b170fac7b8b15a6e2206",
+        "validation_episodes.csv": "80041a7c45cccb20a8ad187aff7d8c75f0f54bc37ad8c49815387cd8fdea4bcb",
+        "progress.csv": "884046b1443150f6018d700e4049f267e99aafd4bf3e88d847906f6ade2208ed",
+        "test_episodes.csv": "0076e8106ad0a915d446ecd7caf9ce2b8b86fca0476b7bd81e55cd9521f273d0",
+        "test_traces.csv": "fb6e6db91ec4760d71303d1de8c83da1b7e4282138889606f6f5969e52f9e55a"
+      }
+    },
+    {
+      "configuration": "epochs_05",
+      "seed": 2,
+      "fingerprint": "6e533981e9c2dbb66eb8164d64e2752b45537f35759fe73049e58613257ffad4",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "0f39770f6fd4220304fcb4c7236602a1286338c9c32d99dfffc9d00ec5f8efd6",
+        "normalizer.pkl": "80c81701070c4b236349129bdaeb5bff265b4097fb568a4e104e4306a3a5524c",
+        "validation_curve.csv": "50ee27ef74daac5e0702740f82e063c6fbaecc3da1472a636441d45892ee7f14",
+        "validation_episodes.csv": "0bd2a71ca8fac1c370759f042cd5a1240990d69d76977e6e37890e5a9de0a53b",
+        "progress.csv": "54d9351fbb68ddd770ad090a7a16576ebce5c37ea313c46d71199379454e5e6b",
+        "test_episodes.csv": "97f8a9977ae4b8260d796e50ebd965f3cf951f1fcbd34e84d828c68ce98b1174",
+        "test_traces.csv": "c892a5624d2f2267ddcdab959f4095c03f11492ef012d320e4fba3b992f63715"
+      }
+    },
+    {
+      "configuration": "epochs_20",
+      "seed": 0,
+      "fingerprint": "1ec9d4b505f5fa11134675b31ad0677d7fa30340466d0067c31194e7f673c0e9",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "e3254b5da8d52c0b7f66c8bd1ec2b76dc667b91a2788f575dc946b1f89bb70f7",
+        "normalizer.pkl": "a72626665f72ba9f00be7b01d18019e89c242184f5d07ac966ab39a906fe2ab2",
+        "validation_curve.csv": "f49c026b91d3fad840e8a9d92d93ae22240c90ad9e5e850c1339d869a8b133a7",
+        "validation_episodes.csv": "3b438c18c95efa46df7a56254abe2c0731d1150b7038232938c48b7d3c895e00",
+        "progress.csv": "496cd4b7d3e8fbbfe9c441ffa710e13377fc57eab22fa9c840bca56ac6a996a7",
+        "test_episodes.csv": "97c33e9a1863012b6432d5395dbabebf615e74b596e5ab43890be6d72302f0e2",
+        "test_traces.csv": "0e1c890d5c01b8caa6e816ffcf925e74a0b755f149ebce10ea2acea7a62ff8a5"
+      }
+    },
+    {
+      "configuration": "epochs_20",
+      "seed": 1,
+      "fingerprint": "97c7dab1501568b76399bb3de08bf7da1d781fa4569cf023f55a5b5fcd4c0e87",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "e8fe463e40045c090a58145a5a15f06222ad36266531e48e8fd45a795ef90430",
+        "normalizer.pkl": "ef4faad7bf08c216eeabfa8bd5f5a4a28397ad088d593c8f6f4ec7e956015bf9",
+        "validation_curve.csv": "7aa79e0bbb51a12b6b5ecd3ad8aa6adb94e56d641e2c54164e9148240a524a22",
+        "validation_episodes.csv": "2ff19f81bf58105996b95ed765adc99c21e69da3e8e3827f01fdc9671a35262e",
+        "progress.csv": "c4072bcbf589bc34e98bc4621e84b3dc19202af8eb61850fa82ec9911e35b1b7",
+        "test_episodes.csv": "6a573e36fa6e3ea3318b9e0ed5be11424a17359334b81fffb59899b7a4588c9f",
+        "test_traces.csv": "71f843be0bf28f2204cdc4ec90613269f6b0d6cd3fd93edd3254ca9b9674f110"
+      }
+    },
+    {
+      "configuration": "epochs_20",
+      "seed": 2,
+      "fingerprint": "6f87a97e0330cc682c65a220cea56c3aa9db915821a343c83d8f63d7edde1759",
+      "git": {
+        "commit": "ab572cf12919bfb975bece027f2b8bb6bdb15ccc",
+        "dirty": true
+      },
+      "artifacts": {
+        "model.zip": "9d3cdc290ebbf622b31e7d95b96ba6649e05fc69ae51bdd88e811de9deb782d6",
+        "normalizer.pkl": "5146fb96189e58a71978222ef61f66b56525dca47809a98b5e60c6d499b22b90",
+        "validation_curve.csv": "eb0291eef123f3171f01ecc60b7d2ca6112b635c801164f6a47bc6daac2834ea",
+        "validation_episodes.csv": "df83efd8fca4ae8851679e80546543e5ebb06e844ba015d83198d9183422a712",
+        "progress.csv": "792c349babd17543349f29919b6ff92a445d48c64d075c21db7c0a005423397c",
+        "test_episodes.csv": "a55fede1b9b7484d02160c78ce0af3161d3acae29a539df18294b6f7729f1808",
+        "test_traces.csv": "4dd8e268d58bb1548114ae31ec58fa3d072d919a1cbc76d00500363298dd2f0b"
+      }
+    }
+  ],
+  "test_cases": 30,
+  "training_seeds": [
+    0,
+    1,
+    2
+  ],
+  "training_source_hash": "120575debfe0e60ad32a4746c3d149bef907bfec5c96c765edb240a301e0f3a3"
+}
