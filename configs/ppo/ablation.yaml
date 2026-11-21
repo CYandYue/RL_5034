@@ -1,0 +1,9 @@
+training_seeds: [0, 1, 2]
+configurations:
+  - {name: default}
+  - {name: clip_010, clip_range: 0.1}
+  - {name: clip_030, clip_range: 0.3}
+  - {name: lambda_090, gae_lambda: 0.90}
+  - {name: lambda_099, gae_lambda: 0.99}
+  - {name: epochs_05, n_epochs: 5}
+  - {name: epochs_20, n_epochs: 20}

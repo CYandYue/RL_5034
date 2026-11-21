@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "split": "validation",
+  "generation_seed": 1001,
+  "per_scenario": 5,
+  "cases": [
+    {
+      "case_id": "validation_cold_00",
+      "scenario": "cold",
+      "weather_delta_c": 0.4503797142798036,
+      "indoor_init_c": 19.812801871281327,
+      "envelope_init_c": 3.030226532487953,
+      "reset_seed": 1090847975
+    },
+    {
+      "case_id": "validation_cold_01",
+      "scenario": "cold",
+      "weather_delta_c": 1.4315602581644997,
+      "indoor_init_c": 20.054794537071256,
+      "envelope_init_c": 3.9389987924983005,
+      "reset_seed": 403060296
+    },
+    {
+      "case_id": "validation_cold_02",
+      "scenario": "cold",
+      "weather_delta_c": -1.1956390222183035,
+      "indoor_init_c": 22.270403997492267,
+      "envelope_init_c": 1.7861842801086047,
+      "reset_seed": 207383185
+    },
+    {
+      "case_id": "validation_cold_03",
+      "scenario": "cold",
+      "weather_delta_c": -1.3911823819588012,
+      "indoor_init_c": 20.470980029650836,
+      "envelope_init_c": 1.4335303320948405,
+      "reset_seed": 211660569
+    },
+    {
+      "case_id": "validation_cold_04",
+      "scenario": "cold",
+      "weather_delta_c": -1.4722864479280329,
+      "indoor_init_c": 23.686467918395824,
+      "envelope_init_c": 1.675348994093074,
+      "reset_seed": 969625784
+    },
+    {
+      "case_id": "validation_hot_00",
+      "scenario": "hot",
+      "weather_delta_c": -0.9861283410378103,
+      "indoor_init_c": 24.462483935157994,
+      "envelope_init_c": 25.64303064583614,
+      "reset_seed": 1643154008
+    },
+    {
+      "case_id": "validation_hot_01",
+      "scenario": "hot",
+      "weather_delta_c": -1.155669060555093,
+      "indoor_init_c": 23.941941806377805,
+      "envelope_init_c": 25.439107044191907,
+      "reset_seed": 537697425
+    },
+    {
+      "case_id": "validation_hot_02",
+      "scenario": "hot",
+      "weather_delta_c": -1.7489331938925883,
+      "indoor_init_c": 23.304743278446512,
+      "envelope_init_c": 24.8415392497557,
+      "reset_seed": 1960921638
+    },
+    {
+      "case_id": "validation_hot_03",
+      "scenario": "hot",
+      "weather_delta_c": -0.9357718614122787,
+      "indoor_init_c": 26.32532482939758,
+      "envelope_init_c": 25.870931819984367,
+      "reset_seed": 2141682498
+    },
+    {
+      "case_id": "validation_hot_04",
+      "scenario": "hot",
+      "weather_delta_c": -1.565903381964858,
+      "indoor_init_c": 26.05696037287055,
+      "envelope_init_c": 25.27623774780535,
+      "reset_seed": 1683428915
+    },
+    {
+      "case_id": "validation_transition_00",
+      "scenario": "transition",
+      "weather_delta_c": -0.4798466860484236,
+      "indoor_init_c": 21.066165331825427,
+      "envelope_init_c": 13.666823427983232,
+      "reset_seed": 1213793950
+    },
+    {
+      "case_id": "validation_transition_01",
+      "scenario": "transition",
+      "weather_delta_c": -0.5173997226056852,
+      "indoor_init_c": 23.661147355810346,
+      "envelope_init_c": 13.887144406438537,
+      "reset_seed": 152367153
+    },
+    {
+      "case_id": "validation_transition_02",
+      "scenario": "transition",
+      "weather_delta_c": -0.4417853360736492,
+      "indoor_init_c": 21.26043908238845,
+      "envelope_init_c": 13.72018680357515,
+      "reset_seed": 823036097
+    },
+    {
+      "case_id": "validation_transition_03",
+      "scenario": "transition",
+      "weather_delta_c": -1.8186474403939452,
+      "indoor_init_c": 21.18277863841911,
+      "envelope_init_c": 12.470589993262635,
+      "reset_seed": 835091693
+    },
+    {
+      "case_id": "validation_transition_04",
+      "scenario": "transition",
+      "weather_delta_c": -1.502646633188864,
+      "indoor_init_c": 20.0978294924764,
+      "envelope_init_c": 12.64935859616975,
+      "reset_seed": 71710587
+    }
+  ]
+}

@@ -47,3 +47,14 @@ python RL_assignment/scripts/dynamics_sanity.py --output-dir artifacts/env-valid
 ```
 
 本机 `ppo` 已安装所需依赖，无需重复创建。环境安装包含 Stable-Baselines3、PyTorch 和两个本地包；CPU 实验设置与锁定版本由根目录配置管理。
+
+## 训练入口
+
+```bash
+conda activate ppo
+python -m pytest -q
+python -m hvac_ppo --help
+python -m hvac_ppo train --seed 0 --timesteps 102400 --output runs/pilot/default_seed_0
+```
+
+固定场景、规则控制、保存/重载、正式消融与 `screen` 命令见 [运行说明](docs/RUNNING_EXPERIMENTS.md)。正式训练预算由短跑确定后再冻结。

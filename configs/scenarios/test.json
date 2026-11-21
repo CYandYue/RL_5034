@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "split": "test",
+  "generation_seed": 2001,
+  "per_scenario": 10,
+  "cases": [
+    {
+      "case_id": "test_cold_00",
+      "scenario": "cold",
+      "weather_delta_c": 0.0,
+      "indoor_init_c": 21.75,
+      "envelope_init_c": 2.813725672760709,
+      "reset_seed": 1030894951
+    },
+    {
+      "case_id": "test_cold_01",
+      "scenario": "cold",
+      "weather_delta_c": 1.8485938022120525,
+      "indoor_init_c": 21.477915760435152,
+      "envelope_init_c": 4.45458520036471,
+      "reset_seed": 1020270028
+    },
+    {
+      "case_id": "test_cold_02",
+      "scenario": "cold",
+      "weather_delta_c": -0.6504519981956394,
+      "indoor_init_c": 23.743933350486877,
+      "envelope_init_c": 2.422308502752589,
+      "reset_seed": 256495343
+    },
+    {
+      "case_id": "test_cold_03",
+      "scenario": "cold",
+      "weather_delta_c": -1.1195801464516113,
+      "indoor_init_c": 22.14579835512175,
+      "envelope_init_c": 1.8425867548122299,
+      "reset_seed": 1681413077
+    },
+    {
+      "case_id": "test_cold_04",
+      "scenario": "cold",
+      "weather_delta_c": 1.9561102940811352,
+      "indoor_init_c": 21.556163958771833,
+      "envelope_init_c": 4.55923467158936,
+      "reset_seed": 1228668502
+    },
+    {
+      "case_id": "test_cold_05",
+      "scenario": "cold",
+      "weather_delta_c": 0.05692496075172837,
+      "indoor_init_c": 20.401060261869592,
+      "envelope_init_c": 2.7329369977477915,
+      "reset_seed": 215873556
+    },
+    {
+      "case_id": "test_cold_06",
+      "scenario": "cold",
+      "weather_delta_c": -1.0358493536966078,
+      "indoor_init_c": 21.64228822039285,
+      "envelope_init_c": 1.8687934606064356,
+      "reset_seed": 1049987026
+    },
+    {
+      "case_id": "test_cold_07",
+      "scenario": "cold",
+      "weather_delta_c": 1.3682861490564715,
+      "indoor_init_c": 21.977717605357636,
+      "envelope_init_c": 4.070285678386416,
+      "reset_seed": 1572521691
+    },
+    {
+      "case_id": "test_cold_08",
+      "scenario": "cold",
+      "weather_delta_c": -0.3907271869218465,
+      "indoor_init_c": 23.162636932084794,
+      "envelope_init_c": 2.599649787797995,
+      "reset_seed": 592063850
+    },
+    {
+      "case_id": "test_cold_09",
+      "scenario": "cold",
+      "weather_delta_c": -0.9824062506746634,
+      "indoor_init_c": 22.104151034314523,
+      "envelope_init_c": 1.9622439436775914,
+      "reset_seed": 1821497161
+    },
+    {
+      "case_id": "test_hot_00",
+      "scenario": "hot",
+      "weather_delta_c": 0.0,
+      "indoor_init_c": 24.5,
+      "envelope_init_c": 26.53623621444089,
+      "reset_seed": 901044136
+    },
+    {
+      "case_id": "test_hot_01",
+      "scenario": "hot",
+      "weather_delta_c": -1.3783299554524544,
+      "indoor_init_c": 25.348774050730647,
+      "envelope_init_c": 25.37606565239333,
+      "reset_seed": 429952216
+    },
+    {
+      "case_id": "test_hot_02",
+      "scenario": "hot",
+      "weather_delta_c": -1.1318426552795908,
+      "indoor_init_c": 22.528132766889623,
+      "envelope_init_c": 25.3221076614951,
+      "reset_seed": 2065161462
+    },
+    {
+      "case_id": "test_hot_03",
+      "scenario": "hot",
+      "weather_delta_c": -1.784282684145443,
+      "indoor_init_c": 22.950695425741554,
+      "envelope_init_c": 24.774971171938613,
+      "reset_seed": 2055089491
+    },
+    {
+      "case_id": "test_hot_04",
+      "scenario": "hot",
+      "weather_delta_c": 0.30248535025479395,
+      "indoor_init_c": 25.808472958307863,
+      "envelope_init_c": 26.937264625880253,
+      "reset_seed": 910043330
+    },
+    {
+      "case_id": "test_hot_05",
+      "scenario": "hot",
+      "weather_delta_c": 1.1076812640712212,
+      "indoor_init_c": 24.415556670059686,
+      "envelope_init_c": 27.527141082991037,
+      "reset_seed": 1677203308
+    },
+    {
+      "case_id": "test_hot_06",
+      "scenario": "hot",
+      "weather_delta_c": -0.12716916364926245,
+      "indoor_init_c": 24.667363184555825,
+      "envelope_init_c": 26.437918419315128,
+      "reset_seed": 521920950
+    },
+    {
+      "case_id": "test_hot_07",
+      "scenario": "hot",
+      "weather_delta_c": 0.9265906140394411,
+      "indoor_init_c": 25.70422639925283,
+      "envelope_init_c": 27.49002306822553,
+      "reset_seed": 1340902998
+    },
+    {
+      "case_id": "test_hot_08",
+      "scenario": "hot",
+      "weather_delta_c": -0.7236570926756327,
+      "indoor_init_c": 26.38864196774057,
+      "envelope_init_c": 26.068470888306187,
+      "reset_seed": 996755996
+    },
+    {
+      "case_id": "test_hot_09",
+      "scenario": "hot",
+      "weather_delta_c": 0.1643366357279703,
+      "indoor_init_c": 24.907292383498604,
+      "envelope_init_c": 26.724371953583308,
+      "reset_seed": 1758402405
+    },
+    {
+      "case_id": "test_transition_00",
+      "scenario": "transition",
+      "weather_delta_c": 0.0,
+      "indoor_init_c": 21.75,
+      "envelope_init_c": 14.166652070114075,
+      "reset_seed": 166257585
+    },
+    {
+      "case_id": "test_transition_01",
+      "scenario": "transition",
+      "weather_delta_c": 1.9099928410527105,
+      "indoor_init_c": 23.011890076251134,
+      "envelope_init_c": 16.013159009457386,
+      "reset_seed": 1908773868
+    },
+    {
+      "case_id": "test_transition_02",
+      "scenario": "transition",
+      "weather_delta_c": 1.237338754354803,
+      "indoor_init_c": 21.744499560366574,
+      "envelope_init_c": 15.282246602417485,
+      "reset_seed": 903025874
+    },
+    {
+      "case_id": "test_transition_03",
+      "scenario": "transition",
+      "weather_delta_c": 0.6078590258736281,
+      "indoor_init_c": 22.98082348237476,
+      "envelope_init_c": 14.83553453609907,
+      "reset_seed": 1231430193
+    },
+    {
+      "case_id": "test_transition_04",
+      "scenario": "transition",
+      "weather_delta_c": -1.0079640039413253,
+      "indoor_init_c": 21.644865740179352,
+      "envelope_init_c": 13.247126140361674,
+      "reset_seed": 797197127
+    },
+    {
+      "case_id": "test_transition_05",
+      "scenario": "transition",
+      "weather_delta_c": -1.565110080132322,
+      "indoor_init_c": 22.996607119624024,
+      "envelope_init_c": 12.876968066636445,
+      "reset_seed": 16402486
+    },
+    {
+      "case_id": "test_transition_06",
+      "scenario": "transition",
+      "weather_delta_c": 1.603870097310208,
+      "indoor_init_c": 23.264677827055923,
+      "envelope_init_c": 15.761785201606315,
+      "reset_seed": 362619125
+    },
+    {
+      "case_id": "test_transition_07",
+      "scenario": "transition",
+      "weather_delta_c": 0.9451448537927645,
+      "indoor_init_c": 21.013709213703297,
+      "envelope_init_c": 14.947089313362882,
+      "reset_seed": 130851367
+    },
+    {
+      "case_id": "test_transition_08",
+      "scenario": "transition",
+      "weather_delta_c": -1.5354547964308516,
+      "indoor_init_c": 21.797099005890296,
+      "envelope_init_c": 12.786218761941734,
+      "reset_seed": 400826042
+    },
+    {
+      "case_id": "test_transition_09",
+      "scenario": "transition",
+      "weather_delta_c": 0.08272679404307981,
+      "indoor_init_c": 23.303431318877124,
+      "envelope_init_c": 14.39344398465663,
+      "reset_seed": 2078377278
+    }
+  ]
+}
